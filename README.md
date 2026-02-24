@@ -1,0 +1,361 @@
+<div align="center">
+  
+![Rocket Animation](./rocket-animation.svg)
+
+# 🚀 Space-Themed Portfolio
+
+**A stunning 3D interactive portfolio powered by Three.js, React, and TypeScript**
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-kupendra.publicvm.com-blue?style=for-the-badge)](https://kupendra.publicvm.com)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+
+</div>
+
+---
+
+## 📖 About The Project
+
+An immersive space-themed portfolio website featuring a mesmerizing Three.js starfield, animated celestial bodies, and smooth scroll-triggered animations. This portfolio showcases my projects, skills, and experience with a unique cosmic aesthetic that combines cutting-edge web technologies with beautiful design.
+
+Visit the live site: **[kupendra.publicvm.com](https://kupendra.publicvm.com)**
+
+---
+
+## ✨ Features
+
+- 🌌 **3D Starfield Background** - Interactive Three.js canvas with thousands of animated stars
+- 🪐 **Animated Planets & Celestial Objects** - Dynamic orbital animations using custom CSS
+- 🎯 **Scroll-Triggered Animations** - Smooth section reveals powered by GSAP ScrollTrigger
+- 🚀 **Animated Rocket Navigator** - Visual indicator for scroll progress
+- 📱 **Fully Responsive Design** - Optimized for all devices and screen sizes
+- 🎨 **Dark/Light Theme Toggle** - Seamless theme switching with persistent preferences
+- 📄 **Downloadable CV/Resume** - Quick access to download professional CV
+- 💼 **Dynamic Project Showcase** - Featured projects with tech stack and live links
+- 📧 **Contact Form** - Integrated contact section for easy communication
+- ⚡ **Lightning Fast Performance** - Built with Vite for optimal loading speeds
+- 🔍 **SEO Optimized** - Proper meta tags and semantic HTML structure
+
+---
+
+## 🎬 Screenshots & Demo
+
+> **Live Demo:** [kupendra.publicvm.com](https://kupendra.publicvm.com)
+
+The portfolio features:
+- **Hero Section** with animated profile and call-to-action buttons
+- **About Section** with stats and technology chips
+- **Projects Gallery** with 8+ featured projects
+- **Contact Section** with email and social links
+- **3D Space Canvas** as an immersive background layer
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **npm** or **yarn** package manager
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/kupendrav/Space_ship-PORT.git
+   cd Space_ship-PORT
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:5173`
+
+---
+
+## 💻 Usage
+
+### Development Commands
+
+```bash
+# Start development server with hot reload
+npm run dev
+
+# Type-check and build for production
+npm run build
+
+# Preview production build locally
+npm run preview
+
+# Run ESLint for code quality
+npm run lint
+```
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+This creates an optimized production build in the `dist/` directory, ready for deployment.
+
+---
+
+## 📁 Project Structure
+
+```
+Space_ship-PORT/
+├── public/              # Static assets
+│   ├── profile.jpeg    # Profile photo
+│   ├── cv.pdf          # Downloadable CV
+│   ├── Kaggle.png      # Social icon
+│   └── vite.svg        # Vite logo
+├── src/
+│   ├── components/     # React components
+│   │   ├── SpaceCanvas.tsx    # Three.js starfield
+│   │   └── RocketScroll.tsx   # Animated scroll indicator
+│   ├── data/           # Data files
+│   │   └── projects.ts # Project information
+│   ├── lib/            # Utility libraries
+│   │   └── gsap.ts     # GSAP configuration
+│   ├── assets/         # Images and media
+│   ├── App.tsx         # Main application component
+│   ├── App.css         # Application styles
+│   ├── main.tsx        # Application entry point
+│   └── index.css       # Global styles
+├── LICENSE             # MIT License
+├── README.md           # This file
+├── rocket-animation.svg # Animated rocket logo
+├── package.json        # Dependencies and scripts
+├── tsconfig.json       # TypeScript configuration
+├── vite.config.ts      # Vite configuration
+└── eslint.config.js    # ESLint configuration
+```
+
+---
+
+## 🛠️ Technologies Used
+
+### Core Technologies
+- **[React 19.2.0](https://reactjs.org/)** - UI framework
+- **[TypeScript 5.9.3](https://www.typescriptlang.org/)** - Type safety
+- **[Vite 7.2.4](https://vitejs.dev/)** - Build tool and dev server
+
+### 3D & Animation
+- **[Three.js 0.182.0](https://threejs.org/)** - 3D graphics library
+- **[@react-three/fiber 9.4.2](https://docs.pmnd.rs/react-three-fiber/)** - React renderer for Three.js
+- **[@react-three/drei 10.7.7](https://github.com/pmndrs/drei)** - Three.js helpers
+- **[GSAP 3.14.2](https://greensock.com/gsap/)** - Professional-grade animation
+- **[Framer Motion 12.23.26](https://www.framer.com/motion/)** - React animation library
+
+### UI & Icons
+- **[React Icons 5.5.0](https://react-icons.github.io/react-icons/)** - Icon library
+- **Custom CSS** - Space/orbit/sun/stars theme
+
+### State Management
+- **[Zustand 5.0.9](https://github.com/pmndrs/zustand)** - Lightweight state management
+
+---
+
+## 🎨 Customization Guide
+
+### Personal Information
+
+1. **Profile Photo**
+   - Replace `public/profile.jpeg` with your photo
+   - Recommended size: 400x400px or higher
+   - Format: JPG, PNG, or WebP
+
+2. **CV/Resume**
+   - Replace `public/cv.pdf` with your CV
+   - The "Download CV" button automatically points to `/cv.pdf`
+
+3. **Contact Email**
+   - Update `contactEmail` in `src/App.tsx` (line 20)
+   ```typescript
+   const contactEmail = 'your-email@example.com'
+   ```
+
+4. **Social Links**
+   - Update `socialLinks` object in `src/App.tsx` (lines 21-27)
+   ```typescript
+   const socialLinks = {
+     github: 'https://github.com/yourusername',
+     linkedin: 'https://linkedin.com/in/yourprofile',
+     // ... add or modify as needed
+   }
+   ```
+
+### Projects
+
+Edit `src/data/projects.ts` to customize your project showcase:
+
+```typescript
+export const projects: Project[] = [
+  {
+    title: 'Your Project',
+    description: 'Project description',
+    tech: ['React', 'TypeScript', 'Node.js'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/...' },
+      { label: 'Live Demo', href: 'https://...' }
+    ],
+  },
+  // Add more projects...
+]
+```
+
+### Theme Colors
+
+Modify CSS custom properties in `src/index.css` or `src/App.css`:
+
+```css
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  /* Add your custom colors */
+}
+```
+
+### GSAP Animations
+
+GSAP configuration is in `src/lib/gsap.ts`. The project uses:
+- **ScrollTrigger** - Section reveals on scroll
+- **ScrollToPlugin** - Smooth anchor navigation
+- Staggered animations for hero and navigation
+
+> **Note:** Club GreenSock plugins (`ScrollSmoother`, `SplitText`, `MorphSVGPlugin`, etc.) require a membership. The free public plugins are sufficient for this project.
+
+---
+
+## 🌐 Deployment
+
+### Prerequisites
+Ensure these files are in `public/` before deploying:
+- `profile.jpeg` (or your profile photo)
+- `cv.pdf` (your resume)
+
+### Deploy to Netlify
+
+1. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+2. **Drag and drop** the `dist/` folder to [Netlify Drop](https://app.netlify.com/drop)
+
+### Deploy to Vercel
+
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy**
+   ```bash
+   vercel
+   ```
+
+### Deploy to GitHub Pages
+
+1. **Install gh-pages**
+   ```bash
+   npm install --save-dev gh-pages
+   ```
+
+2. **Add to package.json**
+   ```json
+   {
+     "homepage": "https://yourusername.github.io/Space_ship-PORT",
+     "scripts": {
+       "predeploy": "npm run build",
+       "deploy": "gh-pages -d dist"
+     }
+   }
+   ```
+
+3. **Deploy**
+   ```bash
+   npm run deploy
+   ```
+
+### Deploy to Custom Domain
+
+The live demo is hosted at **[kupendra.publicvm.com](https://kupendra.publicvm.com)**
+
+For custom domain setup:
+1. Build the project: `npm run build`
+2. Upload the `dist/` folder to your web server
+3. Configure your domain DNS to point to your server
+4. Ensure your web server serves `index.html` for all routes (SPA configuration)
+
+---
+
+## 👨‍💻 Author
+
+**Kupendra V R**
+
+- 🌐 Portfolio: [kupendra.publicvm.com](https://kupendra.publicvm.com)
+- 💼 GitHub: [@kupendrav](https://github.com/kupendrav)
+- 💼 LinkedIn: [kupendrav99](https://www.linkedin.com/in/kupendrav99/)
+- 📊 Kaggle: [kupendrav](https://www.kaggle.com/kupendrav)
+- 🐦 Twitter: [@kupendrav99](https://x.com/kupendrav99)
+- 🎓 Cyfrin: [365smile](https://profiles.cyfrin.io/u/365smile)
+- 📧 Email: kupendravr@zohomail.in
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2025 Kupendra V R
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction...
+```
+
+---
+
+## 🙏 Acknowledgments
+
+- **Three.js** team for the amazing 3D library
+- **GSAP** team for professional animation tools
+- **React Three Fiber** community for excellent React integration
+- **Vite** team for the blazing-fast build tool
+- All open-source contributors who made this project possible
+
+---
+
+## 📮 Contact & Support
+
+If you have any questions, suggestions, or just want to say hi:
+
+- 📧 Email: kupendravr@zohomail.in
+- 💼 LinkedIn: [Connect with me](https://www.linkedin.com/in/kupendrav99/)
+- 🐦 Twitter: [@kupendrav99](https://x.com/kupendrav99)
+
+⭐ **Star this repo** if you find it helpful!
+
+---
+
+<div align="center">
+
+**[⬆ Back to Top](#-space-themed-portfolio)**
+
+Made with 💜 and ☕ by [Kupendra V R](https://kupendra.publicvm.com)
+
+</div>

@@ -1,0 +1,121 @@
+<svg width="800" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rocketGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="flameGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:0.8" />
+    </linearGradient>
+    <radialGradient id="starGlow">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background stars -->
+  <circle cx="50" cy="30" r="1.5" fill="#ffffff" opacity="0.8">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="120" cy="80" r="1" fill="#ffffff" opacity="0.6">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="50" r="1.2" fill="#ffffff" opacity="0.7">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="120" r="1" fill="#ffffff" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="420" cy="40" r="1.5" fill="#ffffff" opacity="0.8">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="550" cy="90" r="1" fill="#ffffff" opacity="0.7">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="680" cy="60" r="1.3" fill="#ffffff" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="750" cy="110" r="1" fill="#ffffff" opacity="0.7">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Animated rocket group -->
+  <g id="rocket">
+    <!-- Flame/exhaust -->
+    <g id="flame" opacity="0.9">
+      <ellipse cx="410" cy="130" rx="8" ry="20" fill="url(#flameGradient)">
+        <animate attributeName="ry" values="20;28;20" dur="0.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;1;0.8" dur="0.2s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="410" cy="135" rx="6" ry="15" fill="#fbbf24" opacity="0.7">
+        <animate attributeName="ry" values="15;22;15" dur="0.15s" repeatCount="indefinite"/>
+      </ellipse>
+    </g>
+
+    <!-- Rocket body -->
+    <g id="rocketBody">
+      <!-- Main body -->
+      <ellipse cx="410" cy="100" rx="15" ry="35" fill="url(#rocketGradient)"/>
+      
+      <!-- Nose cone -->
+      <path d="M 395 68 L 410 45 L 425 68 Z" fill="#4c1d95"/>
+      
+      <!-- Window -->
+      <circle cx="410" cy="85" r="8" fill="#1e293b" opacity="0.8"/>
+      <circle cx="410" cy="85" r="6" fill="#38bdf8" opacity="0.5">
+        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      
+      <!-- Wings -->
+      <path d="M 395 110 L 385 130 L 395 125 Z" fill="#4c1d95"/>
+      <path d="M 425 110 L 435 130 L 425 125 Z" fill="#4c1d95"/>
+      
+      <!-- Details -->
+      <rect x="405" y="95" width="10" height="2" fill="#e0e7ff" opacity="0.6"/>
+      <rect x="405" y="105" width="10" height="2" fill="#e0e7ff" opacity="0.6"/>
+    </g>
+
+    <!-- Animation: rocket moving up and floating -->
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="0,0; 0,-10; 0,0"
+      dur="3s"
+      repeatCount="indefinite"/>
+  </g>
+
+  <!-- Shooting stars -->
+  <g id="shootingStar1" opacity="0">
+    <line x1="600" y1="50" x2="620" y2="60" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="600" cy="50" r="2" fill="url(#starGlow)"/>
+    <animate attributeName="opacity" values="0;1;0" dur="3s" begin="0s" repeatCount="indefinite"/>
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="0,0; -100,50"
+      dur="3s"
+      begin="0s"
+      repeatCount="indefinite"/>
+  </g>
+
+  <g id="shootingStar2" opacity="0">
+    <line x1="200" y1="30" x2="220" y2="40" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="200" cy="30" r="2" fill="url(#starGlow)"/>
+    <animate attributeName="opacity" values="0;1;0" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="0,0; -120,60"
+      dur="4s"
+      begin="1.5s"
+      repeatCount="indefinite"/>
+  </g>
+
+  <!-- Title text -->
+  <text x="450" y="100" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0">
+    <tspan>🚀 Space Portfolio</tspan>
+    <animate attributeName="opacity" values="0;1" dur="1s" begin="0s" fill="freeze"/>
+  </text>
+</svg>
