@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   LuArrowUpRight,
   LuDownload,
@@ -10,9 +10,12 @@ import {
   LuMoon,
   LuSun,
 } from 'react-icons/lu'
-import { projects, type Project } from './data/projects'
+import { projects, type Project, DOMAIN_ORDER } from './data/projects'
 import './App.css'
 import { gsap, useGSAP, ScrollTrigger, smoothScrollTo } from './lib/gsap'
+import { LoadingScreen } from './components/LoadingScreen'
+import { StarClickEffect } from './components/StarClickEffect'
+import { Gallery } from './components/Gallery'
 
 const cvUrl = '/cv.pdf'
 const contactEmail = 'kupendravr@zohomail.in'
@@ -20,7 +23,6 @@ const socialLinks = {
   github: 'https://github.com/kupendrav',
   linkedin: 'https://www.linkedin.com/in/kupendrav99/',
   kaggle: 'https://www.kaggle.com/kupendrav',
-  twitter: 'https://x.com/kupendrav99',
   cyfrin: 'https://profiles.cyfrin.io/u/365smile',
 }
 
@@ -69,31 +71,23 @@ function ProjectCard({ project }: { project: Project }) {
 
 function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
-  const [userName, setUserName] = useState<string>('')
-  const [showNameModal, setShowNameModal] = useState(true)
-  const [nameInput, setNameInput] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home')
   const cursorRef = useRef<HTMLDivElement>(null)
-  const orbitRef = useRef<HTMLDivElement>(null)
-  const flameRef = useRef<HTMLDivElement>(null)
   const scopeRef = useRef<HTMLDivElement>(null)
 
-  const handleNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (nameInput.trim()) {
-      setUserName(nameInput.trim())
-      setShowNameModal(false)
-    }
-  }
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false)
+  }, [])
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   }
 
+  // Simple cursor follow (core dot only)
   useEffect(() => {
     const cursor = cursorRef.current
-    const orbit = orbitRef.current
-    const flame = flameRef.current
-    if (!cursor || !orbit || !flame) return
+    if (!cursor) return
 
     let targetX = window.innerWidth / 2
     let targetY = window.innerHeight / 2
@@ -106,23 +100,13 @@ function App() {
       targetY = e.clientY
     }
 
-    const handleDown = () => {
-      cursor.classList.add('cursor-active')
-      flame.classList.add('cursor-flame-active')
-    }
-
-    const handleUp = () => {
-      cursor.classList.remove('cursor-active')
-      flame.classList.remove('cursor-flame-active')
-    }
+    const handleDown = () => cursor.classList.add('cursor-active')
+    const handleUp = () => cursor.classList.remove('cursor-active')
 
     const tick = () => {
       currentX += (targetX - currentX) * 0.18
       currentY += (targetY - currentY) * 0.18
       cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`
-      flame.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`
-      const t = performance.now() * 0.0015
-      orbit.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) rotate(${t}rad)`
       rafId = requestAnimationFrame(tick)
     }
 
@@ -153,7 +137,7 @@ function App() {
         )
 
         // Nav items stagger in
-        gsap.from('.nav nav > a, .nav .social-icons .icon-link, .theme-toggle', {
+        gsap.from('.nav nav > a, .theme-toggle', {
           y: -8,
           opacity: 0,
           duration: 0.5,
@@ -255,43 +239,11 @@ function App() {
 
   return (
     <div className="app" data-theme={theme}>
-      {/* Name Entry Modal */}
-      {showNameModal && (
-        <div className="name-modal-overlay">
-          <div className="name-modal">
-            <div className="modal-stars" aria-hidden />
-            <h2>🚀 Welcome to the Spaceship</h2>
-            <p className="modal-subtitle">Enter the name to enter the space ship</p>
-            <form onSubmit={handleNameSubmit}>
-              <input
-                type="text"
-                value={nameInput}
-                onChange={(e) => setNameInput(e.target.value)}
-                placeholder="Your name..."
-                className="name-input"
-                autoFocus
-                maxLength={30}
-              />
-              <button type="submit" className="button primary modal-btn">
-                Launch 🚀
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      <StarClickEffect />
 
-      {/* Vertical Name Display */}
-      {userName && (
-        <div className="vertical-name" aria-hidden>
-          {userName}
-        </div>
-      )}
-      
+      {/* Simplified cursor — single dot */}
       <div className="cursor-shell" aria-hidden>
-        <div ref={flameRef} className="cursor-flame" />
-        <div ref={orbitRef} className="cursor-orbit">
-          <span className="cursor-orbit-dot" />
-        </div>
         <div ref={cursorRef} className="cursor-core" />
       </div>
 
@@ -299,9 +251,10 @@ function App() {
         <header className="nav">
           <div className="brand">KVR • Orbit</div>
           <nav>
-            <a href="#work">Work</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="#work" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Work</a>
+            <a href="#about" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>About</a>
+            <a href="#contact" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Contact</a>
+            <a href="#gallery" className={currentPage === 'gallery' ? 'active' : ''} onClick={(e) => { e.preventDefault(); setCurrentPage('gallery'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Gallery</a>
             <button className="theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
               {theme === 'dark' ? <LuSun aria-hidden /> : <LuMoon aria-hidden />}
               <span className="sr-only">Toggle theme</span>
@@ -309,6 +262,9 @@ function App() {
           </nav>
         </header>
 
+        {currentPage === 'gallery' ? (
+          <Gallery onBack={() => setCurrentPage('home')} />
+        ) : (
         <main>
           <section id="hero" className="hero">
             <div className="hero-copy">
@@ -403,11 +359,20 @@ function App() {
               </a>
             </div>
 
-            <div className="projects-grid">
-              {projects.map((project) => (
-                <ProjectCard key={project.title} project={project} />
-              ))}
-            </div>
+            {DOMAIN_ORDER.map((domain) => {
+              const items = projects.filter((p) => p.domain === domain)
+              if (items.length === 0) return null
+              return (
+                <div key={domain} className="domain-section">
+                  <h3 className="domain-heading">{domain}</h3>
+                  <div className="projects-grid">
+                    {items.map((project) => (
+                      <ProjectCard key={project.title} project={project} />
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
           </section>
 
           <section id="about" className="panel split">
@@ -459,10 +424,6 @@ function App() {
                     <img src="https://img.icons8.com/ios-filled/50/FFFFFF/linkedin.png" alt="" aria-hidden />
                     <span className="sr-only">LinkedIn</span>
                   </a>
-                  <a href={socialLinks.twitter} target="_blank" rel="noreferrer" className="icon-link" title="X">
-                    <img src="/twitter.png" alt="" aria-hidden />
-                    <span className="sr-only">X</span>
-                  </a>
                 </div>
                 <span className="location">
                   <LuMapPin aria-hidden /> Planet Earth, Milky Way
@@ -471,6 +432,7 @@ function App() {
             </div>
           </section>
         </main>
+        )}
       </div>
     </div>
   )
