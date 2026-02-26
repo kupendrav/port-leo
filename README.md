@@ -1,12 +1,10 @@
 <div align="center">
-  
-![Rocket Animation](./rocket-animation.svg)
 
-# 🚀 Space-Themed Portfolio
+# 🚀 KVR • Orbit — Space-Themed Portfolio
 
-**A stunning 3D interactive portfolio powered by Three.js, React, and TypeScript**
+**An immersive portfolio powered by GSAP, React, Tailwind CSS, and TypeScript**
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-kupendra.publicvm.com-blue?style=for-the-badge)](https://kupendra.publicvm.com)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-kupendra.netlify.app-blue?style=for-the-badge)](https://kupendra.netlify.app/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
@@ -17,38 +15,40 @@
 
 ## 📖 About The Project
 
-An immersive space-themed portfolio website featuring a mesmerizing Three.js starfield, animated celestial bodies, and smooth scroll-triggered animations. This portfolio showcases my projects, skills, and experience with a unique cosmic aesthetic that combines cutting-edge web technologies with beautiful design.
+A space-themed portfolio website featuring scroll-triggered GSAP animations, a custom animated cursor, a loading screen, interactive photo section pulling images from Google Drive, a dedicated photo gallery, and smooth dark/light theme switching. Built with React 19, TypeScript, Vite, and Tailwind CSS.
 
-Visit the live site: **[kupendra.publicvm.com](https://kupendra.publicvm.com)**
+Visit the live site: **[kupendra.netlify.app](https://kupendra.netlify.app/)**
 
 ---
 
 ## ✨ Features
 
-- 🌌 **3D Starfield Background** - Interactive Three.js canvas with thousands of animated stars
-- 🪐 **Animated Planets & Celestial Objects** - Dynamic orbital animations using custom CSS
-- 🎯 **Scroll-Triggered Animations** - Smooth section reveals powered by GSAP ScrollTrigger
-- 🚀 **Animated Rocket Navigator** - Visual indicator for scroll progress
-- 📱 **Fully Responsive Design** - Optimized for all devices and screen sizes
-- 🎨 **Dark/Light Theme Toggle** - Seamless theme switching with persistent preferences
-- 📄 **Downloadable CV/Resume** - Quick access to download professional CV
-- 💼 **Dynamic Project Showcase** - Featured projects with tech stack and live links
-- 📧 **Contact Form** - Integrated contact section for easy communication
-- ⚡ **Lightning Fast Performance** - Built with Vite for optimal loading speeds
-- 🔍 **SEO Optimized** - Proper meta tags and semantic HTML structure
+- 🎯 **Scroll-Triggered Animations** — Smooth section reveals and card staggers powered by GSAP ScrollTrigger
+- 🖱️ **Custom Animated Cursor** — Radial glow cursor with click/press feedback, themed per mode
+- 🌗 **Dark/Light Theme Toggle** — Seamless full-site theme switching
+- 🖼️ **Interactive Hero Photo** — Starts greyscale; click to shuffle through 32 Google Drive photos with GSAP crossfade transitions
+- 🌠 **Star Click Effect** — Burst particles on every click
+- ⏳ **Cinematic Loading Screen** — SVG circle progress + scanlines intro
+- 📸 **Photo Gallery Page** — Greyscale-to-colour hover gallery of hackathon & event photos
+- 💼 **Domain-Grouped Project Showcase** — Projects organized by domain with tech pills and live links
+- 📄 **Downloadable CV** — One-click resume download
+- 📱 **Fully Responsive** — Mobile-first layouts from 320 px to 1440 px+
+- 🎨 **Neon Text Selection** — Custom `::selection` highlight with cyan/violet glow
+- ⚡ **Lightning-Fast Builds** — Vite + Tailwind CSS for instant HMR and tiny bundles
+- 🔗 **Backend API** — Express + MongoDB visitor tracking (optional)
 
 ---
 
 ## 🎬 Screenshots & Demo
 
-> **Live Demo:** [kupendra.publicvm.com](https://kupendra.publicvm.com)
+> **Live Demo:** [kupendra.netlify.app](https://kupendra.netlify.app/)
 
 The portfolio features:
-- **Hero Section** with animated profile and call-to-action buttons
-- **About Section** with stats and technology chips
-- **Projects Gallery** with 8+ featured projects
-- **Contact Section** with email and social links
-- **3D Space Canvas** as an immersive background layer
+- **Hero Section** — Animated copy, stat cards, and a clickable photo that shuffles Drive images
+- **Work Section** — Projects grouped by domain (Full-stack, AI/ML, Security, Web3)
+- **About Section** — Bio, bullet highlights, and toolbox chip grid
+- **Contact Section** — Email CTA, GitHub/LinkedIn icons, location badge
+- **Gallery Page** — Greyscale photo cards that reveal colour on hover
 
 ---
 
@@ -79,6 +79,16 @@ The portfolio features:
 
 4. **Open your browser**
    Navigate to `http://localhost:5173`
+
+### Backend (optional — for visitor tracking)
+
+```bash
+cd server
+npm install
+node index.js      # Starts on http://localhost:3001
+```
+
+The Vite dev server proxies `/api` requests to port 3001 automatically.
 
 ---
 
@@ -113,56 +123,60 @@ This creates an optimized production build in the `dist/` directory, ready for d
 ## 📁 Project Structure
 
 ```
-Space_ship-PORT/
-├── public/              # Static assets
-│   ├── profile.jpeg    # Profile photo
-│   ├── cv.pdf          # Downloadable CV
-│   ├── Kaggle.png      # Social icon
-│   └── vite.svg        # Vite logo
+port-leo/
+├── public/                     # Static assets
+│   ├── cv.pdf                 # Downloadable CV
+│   ├── profile.jpeg           # Fallback profile photo
+│   ├── twitter.png            # Social icon
+│   └── vite.svg               # Vite logo
+├── server/                     # Express backend (optional)
+│   ├── index.js               # Visitor API + MongoDB
+│   └── package.json
 ├── src/
-│   ├── components/     # React components
-│   │   ├── SpaceCanvas.tsx    # Three.js starfield
-│   │   └── RocketScroll.tsx   # Animated scroll indicator
-│   ├── data/           # Data files
-│   │   └── projects.ts # Project information
-│   ├── lib/            # Utility libraries
-│   │   └── gsap.ts     # GSAP configuration
-│   ├── assets/         # Images and media
-│   ├── App.tsx         # Main application component
-│   ├── App.css         # Application styles
-│   ├── main.tsx        # Application entry point
-│   └── index.css       # Global styles
-├── LICENSE             # MIT License
-├── README.md           # This file
-├── rocket-animation.svg # Animated rocket logo
-├── package.json        # Dependencies and scripts
-├── tsconfig.json       # TypeScript configuration
-├── vite.config.ts      # Vite configuration
-└── eslint.config.js    # ESLint configuration
+│   ├── components/
+│   │   ├── Gallery.tsx        # Photo gallery page (greyscale → colour)
+│   │   ├── GLSLBackground.tsx # GLSL shader background
+│   │   ├── LoadingScreen.tsx  # SVG circle progress intro
+│   │   └── StarClickEffect.tsx# Burst particles on click
+│   ├── data/
+│   │   ├── gallery.ts         # Local gallery photo data
+│   │   └── projects.ts        # Project definitions & domain order
+│   ├── lib/
+│   │   └── gsap.ts            # GSAP config (ScrollTrigger, ScrollToPlugin)
+│   ├── photos/                # Local event/hackathon photos + hero image
+│   ├── App.tsx                # Main component (hero, work, about, contact)
+│   ├── App.css                # All component styles + responsive breakpoints
+│   ├── index.css              # Global resets, CSS variables, neon selection
+│   └── main.tsx               # React entry point
+├── index.html                 # HTML shell
+├── package.json               # Dependencies & scripts
+├── tsconfig.json              # TypeScript config
+├── vite.config.ts             # Vite + Tailwind + API proxy
+├── eslint.config.js           # Linting rules
+└── LICENSE                    # MIT
 ```
 
 ---
 
 ## 🛠️ Technologies Used
 
-### Core Technologies
-- **[React 19.2.0](https://reactjs.org/)** - UI framework
-- **[TypeScript 5.9.3](https://www.typescriptlang.org/)** - Type safety
-- **[Vite 7.2.4](https://vitejs.dev/)** - Build tool and dev server
+### Core
+- **[React 19.2.0](https://reactjs.org/)** — UI framework
+- **[TypeScript 5.9.3](https://www.typescriptlang.org/)** — Type safety
+- **[Vite 7.2.4](https://vitejs.dev/)** — Build tool & dev server
+- **[Tailwind CSS 4](https://tailwindcss.com/)** — Utility-first CSS (via `@tailwindcss/vite`)
 
-### 3D & Animation
-- **[Three.js 0.182.0](https://threejs.org/)** - 3D graphics library
-- **[@react-three/fiber 9.4.2](https://docs.pmnd.rs/react-three-fiber/)** - React renderer for Three.js
-- **[@react-three/drei 10.7.7](https://github.com/pmndrs/drei)** - Three.js helpers
-- **[GSAP 3.14.2](https://greensock.com/gsap/)** - Professional-grade animation
-- **[Framer Motion 12.23.26](https://www.framer.com/motion/)** - React animation library
+### Animation
+- **[GSAP 3.14.2](https://greensock.com/gsap/)** — ScrollTrigger, ScrollToPlugin, crossfade transitions
+- **[@gsap/react 2.1.2](https://www.npmjs.com/package/@gsap/react)** — `useGSAP` hook
 
 ### UI & Icons
-- **[React Icons 5.5.0](https://react-icons.github.io/react-icons/)** - Icon library
-- **Custom CSS** - Space/orbit/sun/stars theme
+- **[React Icons 5.5.0](https://react-icons.github.io/react-icons/)** — Lucide icon set
+- **Custom CSS** — Cursor, loading screen, card hover effects, neon selection
 
-### State Management
-- **[Zustand 5.0.9](https://github.com/pmndrs/zustand)** - Lightweight state management
+### Backend (optional)
+- **[Express 4.21.0](https://expressjs.com/)** — REST API
+- **[MongoDB Atlas](https://www.mongodb.com/atlas)** — Visitor name persistence
 
 ---
 
@@ -170,133 +184,85 @@ Space_ship-PORT/
 
 ### Personal Information
 
-1. **Profile Photo**
-   - Replace `public/profile.jpeg` with your photo
-   - Recommended size: 400x400px or higher
-   - Format: JPG, PNG, or WebP
+1. **Hero Photo** — Replace `src/photos/image.jpeg` with your photo (displayed in greyscale)
 
-2. **CV/Resume**
-   - Replace `public/cv.pdf` with your CV
-   - The "Download CV" button automatically points to `/cv.pdf`
+2. **CV/Resume** — Replace `public/cv.pdf`; the "Download CV" button uses `/cv.pdf`
 
-3. **Contact Email**
-   - Update `contactEmail` in `src/App.tsx` (line 20)
+3. **Contact Email** — Update `contactEmail` in `src/App.tsx`
    ```typescript
    const contactEmail = 'your-email@example.com'
    ```
 
-4. **Social Links**
-   - Update `socialLinks` object in `src/App.tsx` (lines 21-27)
+4. **Social Links** — Update `socialLinks` in `src/App.tsx`
    ```typescript
    const socialLinks = {
      github: 'https://github.com/yourusername',
      linkedin: 'https://linkedin.com/in/yourprofile',
-     // ... add or modify as needed
    }
    ```
 
+5. **Drive Photo IDs** — Update the `drivePhotoIds` array in `src/App.tsx` with your own Google Drive file IDs (public sharing required)
+
 ### Projects
 
-Edit `src/data/projects.ts` to customize your project showcase:
+Edit `src/data/projects.ts` to customise your project showcase:
 
 ```typescript
 export const projects: Project[] = [
   {
     title: 'Your Project',
+    domain: 'Full-stack & Product',
     description: 'Project description',
     tech: ['React', 'TypeScript', 'Node.js'],
     links: [
       { label: 'GitHub', href: 'https://github.com/...' },
-      { label: 'Live Demo', href: 'https://...' }
+      { label: 'Live', href: 'https://...' },
     ],
   },
-  // Add more projects...
 ]
 ```
 
-### Theme Colors
+### Gallery Photos
 
-Modify CSS custom properties in `src/index.css` or `src/App.css`:
+Add event photos to `src/photos/` and register them in `src/data/gallery.ts`.
+
+### Theme Colours
+
+Modify CSS custom properties in `src/index.css`:
 
 ```css
 :root {
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  /* Add your custom colors */
+  --bg: #05060a;
+  --accent: #7dd3fc;
+  --accent-2: #a78bfa;
+  --text: #e5ecff;
+  --muted: #9fb3d8;
 }
 ```
-
-### GSAP Animations
-
-GSAP configuration is in `src/lib/gsap.ts`. The project uses:
-- **ScrollTrigger** - Section reveals on scroll
-- **ScrollToPlugin** - Smooth anchor navigation
-- Staggered animations for hero and navigation
-
-> **Note:** Club GreenSock plugins (`ScrollSmoother`, `SplitText`, `MorphSVGPlugin`, etc.) require a membership. The free public plugins are sufficient for this project.
 
 ---
 
 ## 🌐 Deployment
 
-### Prerequisites
-Ensure these files are in `public/` before deploying:
-- `profile.jpeg` (or your profile photo)
-- `cv.pdf` (your resume)
+### Deploy to Netlify (current)
 
-### Deploy to Netlify
-
-1. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-2. **Drag and drop** the `dist/` folder to [Netlify Drop](https://app.netlify.com/drop)
+1. Build: `npm run build`
+2. Deploy the `dist/` folder via [Netlify](https://app.netlify.com/drop) or connect the Git repo for auto-deploys.
 
 ### Deploy to Vercel
 
-1. **Install Vercel CLI**
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Deploy**
-   ```bash
-   vercel
-   ```
+```bash
+npm i -g vercel
+vercel
+```
 
 ### Deploy to GitHub Pages
 
-1. **Install gh-pages**
-   ```bash
-   npm install --save-dev gh-pages
-   ```
-
-2. **Add to package.json**
-   ```json
-   {
-     "homepage": "https://yourusername.github.io/Space_ship-PORT",
-     "scripts": {
-       "predeploy": "npm run build",
-       "deploy": "gh-pages -d dist"
-     }
-   }
-   ```
-
-3. **Deploy**
-   ```bash
-   npm run deploy
-   ```
-
-### Deploy to Custom Domain
-
-The live demo is hosted at **[kupendra.publicvm.com](https://kupendra.publicvm.com)**
-
-For custom domain setup:
-1. Build the project: `npm run build`
-2. Upload the `dist/` folder to your web server
-3. Configure your domain DNS to point to your server
-4. Ensure your web server serves `index.html` for all routes (SPA configuration)
+```bash
+npm install --save-dev gh-pages
+# Add to scripts: "predeploy": "npm run build", "deploy": "gh-pages -d dist"
+npm run deploy
+```
 
 ---
 
@@ -304,58 +270,33 @@ For custom domain setup:
 
 **Kupendra V R**
 
-- 🌐 Portfolio: [kupendra.publicvm.com](https://kupendra.publicvm.com)
+- 🌐 Portfolio: [kupendra.netlify.app](https://kupendra.netlify.app/)
 - 💼 GitHub: [@kupendrav](https://github.com/kupendrav)
 - 💼 LinkedIn: [kupendrav99](https://www.linkedin.com/in/kupendrav99/)
-- 📊 Kaggle: [kupendrav](https://www.kaggle.com/kupendrav)
-- 🐦 Twitter: [@kupendrav99](https://x.com/kupendrav99)
-- 🎓 Cyfrin: [365smile](https://profiles.cyfrin.io/u/365smile)
 - 📧 Email: kupendravr@zohomail.in
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2025 Kupendra V R
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Three.js** team for the amazing 3D library
 - **GSAP** team for professional animation tools
-- **React Three Fiber** community for excellent React integration
+- **Tailwind CSS** for utility-first styling
 - **Vite** team for the blazing-fast build tool
+- **React Icons** for the Lucide set
 - All open-source contributors who made this project possible
-
----
-
-## 📮 Contact & Support
-
-If you have any questions, suggestions, or just want to say hi:
-
-- 📧 Email: kupendravr@zohomail.in
-- 💼 LinkedIn: [Connect with me](https://www.linkedin.com/in/kupendrav99/)
-- 🐦 Twitter: [@kupendrav99](https://x.com/kupendrav99)
-
-⭐ **Star this repo** if you find it helpful!
 
 ---
 
 <div align="center">
 
-**[⬆ Back to Top](#-space-themed-portfolio)**
+**[⬆ Back to Top](#-kvr--orbit--space-themed-portfolio)**
 
-Made with 💜 and ☕ by [Kupendra V R](https://kupendra.publicvm.com)
+Made with 💜 and ☕ by [Kupendra V R](https://kupendra.netlify.app/)
 
 </div>
