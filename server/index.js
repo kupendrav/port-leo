@@ -84,6 +84,7 @@ app.post('/api/visitors', async (req, res) => {
   }
 })
 
+// GET /api/drive-photos — fetch photo list from public Google Drive folder
 const PORT = process.env.PORT || 3001
 
 // Start HTTP server immediately — independent of DB connection

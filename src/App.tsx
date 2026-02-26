@@ -16,6 +16,46 @@ import { gsap, useGSAP, ScrollTrigger, smoothScrollTo } from './lib/gsap'
 import { LoadingScreen } from './components/LoadingScreen'
 import { StarClickEffect } from './components/StarClickEffect'
 import { Gallery } from './components/Gallery'
+import heroImage from './photos/image.jpeg'
+
+// Google Drive photo IDs — converted to thumbnail URLs
+const drivePhotoIds = [
+  '125yU5rDweMtxOrGnqRc0samU1hLTw_hm',
+  '14vGGA4q8Z3xe3IanBbwqGCS8E5CAFpeu',
+  '15NcYx5KmGuuLSDu-AiHc3wG53BzIrtoi',
+  '16ZXfXXEE-aG5_vamXeHDWgZd5_Pucz6p',
+  '1DXoRQd0rVoZhV6Du7_bAuUDcoZwvzJ5m',
+  '1Di9ZNPaCJyogoK9O74pKOdG7HeTlSxaZ',
+  '1HnxCkPBlJsW7CeGnAdMAlshP8QYVTMn_',
+  '1JjZkYJKPPzwNbVcTM08iVp_4pzXWVEvP',
+  '1LOwWWei92bIEVSFc2BeLrKrGvBxjh_8q',
+  '1MMiErtRLVKh9bR_qADglezdaKkgcYSIm',
+  '1MYc0vdaSVfoO9qNbQQWWtV3JibTYY4HY',
+  '1PQZn_Frx-Z545PZUrvCuVlvzhzuJXzyK',
+  '1RCYslRZixJ7xvtGX0B6vjD4ZjTxqt_oV',
+  '1UkTFAZKmHw4d3OyssuMe819LmquYNwPW',
+  '1V4lTSYIeWsLCJxYMRnG4u7m1xtEmiAt-',
+  '1Wrxi-5ldQlxdJgnaVwTagO3erEcLmyBU',
+  '1XwV-pYTAeJGwDAkIO1372vcgIpGIdbmy',
+  '1YKg77efNH0o_eWFrHF4tidQP0b78z2Wo',
+  '1ZDjgLzd8bc3EgYdzF9K2wwTCYoXh7Y8V',
+  '1ZMEMukb4rEaYdbQ0OhdbKY9d9Le9LBqZ',
+  '1bG1erT3N-HtWKBXKrVZxNSZ3Ui-v4-k2',
+  '1eKSRn26HUxsY1iV7GvjIdc2FF_jyXzFB',
+  '1eRzIgd4T15c6rJmf_G7eEjR9S2LuHsyM',
+  '1fDbGREwXpsn-nm2K16I5jm2NbSNrZPEE',
+  '1fZGX4W8TVjcXuImyoiKWaBdA-FfrTqPC',
+  '1iM88GqmerRifbYN6vhFFzCDBN1QtZRVP',
+  '1ll4n47_VDubHmoRA7oznIx3eWCwNpjxC',
+  '1s3EGNB50QvSAxs2GApgwFNM7JiKMyH5b',
+  '1swRKMRL1jMhxtS1bH85FKHfiWO3DZLnT',
+  '1tVIxEMEbR2uyOkfq3-Ai8_19taTJufHb',
+  '1uBy7gzStDuvGY-81V7qcLxJiq4BE9MRm',
+  '1w3A-teeITAfs5cS6p2ux-D-Uswk9dczo',
+]
+const drivePhotoUrls = drivePhotoIds.map(
+  (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w1200`,
+)
 
 const cvUrl = '/cv.pdf'
 const contactEmail = 'kupendravr@zohomail.in'
@@ -74,12 +114,58 @@ function App() {
   const cursorRef = useRef<HTMLDivElement>(null)
   const scopeRef = useRef<HTMLDivElement>(null)
 
+  const [photoSrc, setPhotoSrc] = useState<string>(heroImage)
+  const heroImgRef = useRef<HTMLImageElement>(null)
+  const lastIndexRef = useRef<number>(-1)
+
   const handleLoadingComplete = useCallback(() => {
     setIsLoading(false)
   }, [])
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  }
+
+  // Click hero photo → random Drive image with crossfade
+  const handleHeroPhotoClick = () => {
+    const img = heroImgRef.current
+    if (!img) return
+
+    // Pick a random index different from the last one
+    let idx: number
+    do {
+      idx = Math.floor(Math.random() * drivePhotoUrls.length)
+    } while (idx === lastIndexRef.current && drivePhotoUrls.length > 1)
+    lastIndexRef.current = idx
+
+    const nextUrl = drivePhotoUrls[idx]
+
+    // Preload the image before transitioning
+    const preload = new Image()
+    preload.src = nextUrl
+    preload.onload = () => {
+      // GSAP crossfade: blur out → swap → blur in
+      gsap.to(img, {
+        opacity: 0,
+        scale: 0.96,
+        filter: 'blur(8px)',
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          setPhotoSrc(nextUrl)
+          gsap.fromTo(
+            img,
+            { opacity: 0, scale: 1.05, filter: 'blur(8px)' },
+            { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' },
+          )
+        },
+      })
+    }
+    preload.onerror = () => {
+      // If load fails, just try the next one
+      lastIndexRef.current = idx
+      handleHeroPhotoClick()
+    }
   }
 
   // Simple cursor follow (core dot only)
@@ -306,21 +392,17 @@ function App() {
             </div>
 
             <div className="hero-visual">
-              <div className="photo-frame flip-card" title="Train your Back">
-                <div className="flip-inner">
-                  <div className="flip-front">
-                    <div
-                      className="photo"
-                      style={{
-                        backgroundImage:
-                          'radial-gradient(circle at 50% 30%, rgba(249, 215, 112, 0.35), rgba(5, 6, 10, 0.2)), url(/profile.jpeg)',
-                      }}
-                    />
-                  </div>
-                  <div className="flip-back">
-                    <p className="flip-quote">“keizoku wa chikara nari”</p>
-                  </div>
-                </div>
+              <div
+                className="photo-frame hero-photo-clickable"
+                onClick={handleHeroPhotoClick}
+                title="Click to shuffle photo"
+              >
+                <img
+                  ref={heroImgRef}
+                  src={photoSrc}
+                  alt="Profile"
+                  className={`hero-photo${photoSrc === heroImage ? ' greyscale' : ''}`}
+                />
               </div>
 
               <div className="orbit-card">
