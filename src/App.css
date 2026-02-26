@@ -38,10 +38,6 @@ body::-webkit-scrollbar,
   border-color: rgba(0, 0, 0, 0.06);
 }
 
-.app[data-theme='light'] .nav::before {
-  display: none;
-}
-
 .app[data-theme='light'] .brand {
   color: #0f172a;
   -webkit-text-fill-color: #0f172a;
@@ -604,18 +600,6 @@ main {
 .flip-card:hover .flip-inner,
 .flip-card:focus-within .flip-inner {
   transform: rotateY(180deg);
-}
-
-.photo-note {
-  position: absolute;
-  bottom: 0.9rem;
-  left: 1rem;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 0.45rem 0.7rem;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  font-size: 0.9rem;
-  color: var(--muted);
 }
 
 .orbit-card {
@@ -1216,21 +1200,6 @@ main {
   color: #e0e7ff;
   line-height: 1;
   user-select: none;
-}
-
-@keyframes kPulse {
-  0%, 100% {
-    text-shadow:
-      0 0 20px rgba(224, 231, 255, 0.6),
-      0 0 50px rgba(125, 211, 252, 0.35),
-      0 0 80px rgba(167, 139, 250, 0.2);
-  }
-  50% {
-    text-shadow:
-      0 0 30px rgba(224, 231, 255, 0.9),
-      0 0 60px rgba(125, 211, 252, 0.55),
-      0 0 100px rgba(167, 139, 250, 0.35);
-  }
 }
 
 .loading-scanlines {
