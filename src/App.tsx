@@ -22,8 +22,6 @@ const contactEmail = 'kupendravr@zohomail.in'
 const socialLinks = {
   github: 'https://github.com/kupendrav',
   linkedin: 'https://www.linkedin.com/in/kupendrav99/',
-  kaggle: 'https://www.kaggle.com/kupendrav',
-  cyfrin: 'https://profiles.cyfrin.io/u/365smile',
 }
 
 type Stat = {

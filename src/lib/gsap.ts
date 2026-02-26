@@ -5,11 +5,6 @@ import { useGSAP } from '@gsap/react'
 import {
   ScrollTrigger,
   ScrollToPlugin,
-  Draggable,
-  Flip,
-  MotionPathPlugin,
-  Observer,
-  TextPlugin,
 } from 'gsap/all'
 
 // Register once at module load
@@ -17,11 +12,6 @@ gsap.registerPlugin(
   useGSAP,
   ScrollTrigger,
   ScrollToPlugin,
-  Draggable,
-  Flip,
-  MotionPathPlugin,
-  Observer,
-  TextPlugin,
 )
 
 export { gsap, useGSAP, ScrollTrigger }
