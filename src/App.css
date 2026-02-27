@@ -759,6 +759,15 @@ main {
   background: rgba(255, 255, 255, 0.03);
 }
 
+.stack-title {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent, #888);
+}
+
 .chip-grid {
   display: flex;
   gap: 0.5rem;
