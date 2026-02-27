@@ -34,6 +34,16 @@ export const projects: Project[] = [
     ],
     domain: 'Full-stack',
   },
+  {
+    title: 'pro-pdfs',
+    description: 'Professional PDF generation and management tool for creating polished documents.',
+    tech: ['TypeScript', 'React', 'Full-stack'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/pro-pdfs' },
+      { label: 'Live', href: 'https://propdfs.netlify.app/' },
+    ],
+    domain: 'Full-stack',
+  },
   // ── AI / ML ──
   {
     title: 'ProfileGuard-AI',
@@ -64,6 +74,16 @@ export const projects: Project[] = [
     ],
     domain: 'AI / ML',
   },
+  {
+    title: 'code-reviewer-pro',
+    description: 'AI-powered code review tool that analyzes code for best practices, bugs, and improvements.',
+    tech: ['TypeScript', 'AI', 'Full-stack'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/code-reviewer-pro' },
+      { label: 'Live', href: 'https://codepro-mu.vercel.app/' },
+    ],
+    domain: 'AI / ML',
+  },
   // ── Web3 ──
   {
     title: 'cryptX',
@@ -71,6 +91,7 @@ export const projects: Project[] = [
     tech: ['TypeScript', 'Web3'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/cryptX' },
+      { label: 'Live', href: 'https://cryptgame.netlify.app/' },
     ],
     domain: 'Web3',
   },

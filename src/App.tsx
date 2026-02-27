@@ -76,7 +76,7 @@ const stats: Stat[] = [
   { label: 'Data & ML', value: '6', detail: 'experiments & notebooks' },
 ]
 
-const focusChips = ['Full-stack', 'AI/ML', 'Security', 'Web3', 'Product polish']
+const focusChips = ['Data science','Full-stack', 'AI/ML', 'Security', 'Web3']
 
 function ProjectCard({ project }: { project: Project }) {
   return (
@@ -357,8 +357,8 @@ function App() {
                 Crafting fast, reliable products with a love for stars, orbits, and immersive UI.
               </h1>
               <p className="lede">
-                I design and ship end-to-end experiences across web, AI/ML, security automation, and Web3. This
-                portfolio pulls my repos, a cosmic Three.js scene, and a CV you can download.
+                I design and ship end-to-end experiences across Data Science, AI/ML, Web, Cyber Security, and Web3. This
+                portfolio pulls my repos, work history, and a CV you can download.
               </p>
 
               <div className="cta-row">
@@ -408,9 +408,9 @@ function App() {
               <div className="orbit-card">
                 <div>
                   <p className="eyebrow">Current focus</p>
-                  <h3>Shipping secure, animated experiences</h3>
+                  <h3>Forward-Looking & Innovative</h3>
                   <p className="small">
-                    Blending Three.js visuals with product polish, responsive layouts, and automation-first workflows.
+                     Building trust in digital innovation with expertise in data science, blockchain security audits, and modern cybersecurity strategies.
                   </p>
                 </div>
                 <div className="orbit-links">
@@ -460,19 +460,43 @@ function App() {
               <p className="eyebrow">About</p>
               <h2>Builder with a cosmic streak</h2>
               <p className="lede">
-                I like pairing strong fundamentals with playful UI. From security automation to AI-driven helpers and
-                Web3 experiments, I ship end-to-end: architecture, product thinking, code, and polish.
+                I’m a builder passionate about data‑driven systems and emerging technologies like Web3. My focus is on combining strong fundamentals in architecture and product design with innovative approaches in AI, automation, and decentralized applications. I deliver solutions end‑to‑end: from system architecture and data pipelines to polished user experiences.
               </p>
               <ul className="bullets">
-                <li>Architected secure flows across payments, audits, and profile protection.</li>
-                <li>Built AI-driven utilities for diagnostics, reinstatements, and content improvement.</li>
-                <li>Shipped dashboards, habit tools, and student ops systems with responsive UX.</li>
+                <li><b>Data Science & AI:</b> Developed intelligent utilities for diagnostics, reinstatements, and content improvement, leveraging machine learning to enhance decision‑making and automation.</li>
+                <li><b>Security & Trust:</b> Architected secure flows across payments, audits, and profile protection, ensuring reliability and compliance in sensitive environments.</li>
+                <li><b>Web3 & Emerging Tech:</b> Experimented with decentralized applications and blockchain‑based systems, exploring new models for trust, transparency, and user empowerment.</li>
+                <li><b>Product & UX:</b> Shipped dashboards, habit‑forming tools, and student operations systems with responsive, user‑friendly interfaces that balance functionality with delight.</li>
               </ul>
             </div>
             <div className="stack-card">
               <p className="eyebrow">Toolbox</p>
+
+              <h4 className="stack-title">Languages</h4>
               <div className="chip-grid">
-                {['TypeScript', 'React', 'Vite', 'Three.js', '@react-three/fiber', 'Framer Motion', 'Node', 'Solidity', 'Python', 'Data notebooks'].map(
+                {['TypeScript', 'JavaScript', 'Python', 'Solidity'].map(
+                  (item) => (
+                    <span key={item} className="pill">
+                      {item}
+                    </span>
+                  ),
+                )}
+              </div>
+
+              <h4 className="stack-title">Frameworks</h4>
+              <div className="chip-grid">
+                {['React', 'Node', 'Vite', 'Three.js'].map(
+                  (item) => (
+                    <span key={item} className="pill">
+                      {item}
+                    </span>
+                  ),
+                )}
+              </div>
+
+              <h4 className="stack-title">Libraries</h4>
+              <div className="chip-grid">
+                {['@react-three/fiber', 'Framer Motion', 'GSAP', 'Data notebooks'].map(
                   (item) => (
                     <span key={item} className="pill">
                       {item}
