@@ -95,6 +95,16 @@ export const projects: Project[] = [
     ],
     domain: 'Web3',
   },
+  {
+    title: 'HealthChain',
+    description: 'Health management application for tracking and managing health-related data on the blockchain.',
+    tech: ['TypeScript', 'React', 'Web3'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/HealthChain' },
+      { label: 'Live', href: 'https://kupendrav.github.io/HealthChain/' },
+    ],
+    domain: 'Web3',
+  },
   // ── Cybersecurity ──
   {
     title: 'SecureAudit',
