@@ -31,6 +31,7 @@ export const projects: Project[] = [
     tech: ['TypeScript', 'React'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/studX' },
+      { label: 'Live', href: 'https://stud-x.vercel.app/' },
     ],
     domain: 'Full-stack',
   },
@@ -44,6 +45,26 @@ export const projects: Project[] = [
     ],
     domain: 'Full-stack',
   },
+  {
+    title: 'job-seekz',
+    description: 'Job seeking platform built during a hackathon to connect job seekers with opportunities.',
+    tech: ['TypeScript', 'React', 'Full-stack'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/tjohn-hackathon' },
+      { label: 'Live', href: 'https://tjohn-hackathon.vercel.app/' },
+    ],
+    domain: 'Full-stack',
+  },
+  {
+    title: 'food-lovers',
+    description: 'A food enthusiast web page showcasing recipes, restaurants, and culinary experiences.',
+    tech: ['HTML', 'CSS', 'JavaScript'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/my_web_page_miniproject' },
+      { label: 'Live', href: 'https://kupendrav.github.io/my_web_page_miniproject/' },
+    ],
+    domain: 'Full-stack',
+  },
   // ── AI / ML ──
   {
     title: 'ProfileGuard-AI',
@@ -52,6 +73,17 @@ export const projects: Project[] = [
     tech: ['TypeScript', 'AI Ops', 'Automation'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/ProfileGuard-AI' },
+      { label: 'Live', href: 'https://kupendrav.github.io/ProfileGuard-AI/' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'natasha-ai',
+    description: 'AI-powered conversational assistant built with modern web technologies.',
+    tech: ['TypeScript', 'React', 'AI'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/natasha-ai-copy' },
+      { label: 'Live', href: 'https://kupendrav.github.io/natasha-ai-copy/' },
     ],
     domain: 'AI / ML',
   },
