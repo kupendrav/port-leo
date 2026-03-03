@@ -26,7 +26,7 @@ body::-webkit-scrollbar,
 }
 
 .app[data-theme='light'] {
-  background: linear-gradient(180deg, #fdf2f8 0%, #ede9fe 40%, #e0f2fe 100%);
+  background: linear-gradient(180deg, #FAD0C4 0%, #C2E9FB 50%, #FFD1FF 100%);
 }
 
 /* Light theme nav */
@@ -39,8 +39,8 @@ body::-webkit-scrollbar,
 }
 
 .app[data-theme='light'] .brand {
-  color: #0f172a;
-  -webkit-text-fill-color: #0f172a;
+  color: #0A2342;
+  -webkit-text-fill-color: #0A2342;
   background: none;
 }
 
@@ -48,19 +48,19 @@ body::-webkit-scrollbar,
    LIGHT THEME - Full text & link visibility
    ============================================ */
 .app[data-theme='light'] {
-  color: #0f172a;
+  color: #0A2342;
 }
 
 .app[data-theme='light'] h1,
 .app[data-theme='light'] h2,
 .app[data-theme='light'] h3 {
-  color: #0f172a;
+  color: #0A2342;
 }
 
 .app[data-theme='light'] p,
 .app[data-theme='light'] li,
 .app[data-theme='light'] span {
-  color: #1e293b;
+  color: #001F3F;
 }
 
 .app[data-theme='light'] .lede,
@@ -70,108 +70,109 @@ body::-webkit-scrollbar,
 .app[data-theme='light'] .small,
 .app[data-theme='light'] .stat-detail,
 .app[data-theme='light'] .location {
-  color: #334155;
+  color: #003366;
 }
 
 .app[data-theme='light'] .eyebrow {
-  color: #6d28d9;
+  color: #007FFF;
 }
 
 .app[data-theme='light'] .domain-heading {
-  color: #6d28d9;
-  border-bottom-color: rgba(0, 0, 0, 0.1);
+  color: #007FFF;
+  border-bottom-color: rgba(0, 51, 102, 0.15);
 }
 
 .app[data-theme='light'] .stat-value {
-  color: #0f172a;
+  color: #0A2342;
 }
 
 .app[data-theme='light'] .stat-label {
-  color: #1e293b;
+  color: #001F3F;
 }
 
 .app[data-theme='light'] .pill {
-  color: #1e293b;
-  border-color: rgba(0, 0, 0, 0.12);
-  background: rgba(0, 0, 0, 0.04);
+  color: #001F3F;
+  border-color: rgba(0, 51, 102, 0.15);
+  background: rgba(161, 196, 253, 0.15);
 }
 
 .app[data-theme='light'] .pill.muted {
-  color: #475569;
+  color: #003366;
 }
 
 .app[data-theme='light'] .hero {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(0, 51, 102, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 31, 63, 0.06);
 }
 
 .app[data-theme='light'] .panel {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 51, 102, 0.08);
+  box-shadow: 0 6px 24px rgba(0, 31, 63, 0.05);
 }
 
 .app[data-theme='light'] .project-card {
   background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 51, 102, 0.08);
 }
 
 .app[data-theme='light'] .stat-card {
   background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 51, 102, 0.08);
 }
 
 .app[data-theme='light'] .orbit-card {
   background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 51, 102, 0.08);
 }
 
 .app[data-theme='light'] .stack-card {
   background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 51, 102, 0.08);
 }
 
 .app[data-theme='light'] .flip-quote {
-  color: #0f172a;
+  color: #0A2342;
 }
 
 .app[data-theme='light'] .orbit-links a {
-  color: #6d28d9;
+  color: #007FFF;
 }
 
 .app[data-theme='light'] .project-links a {
-  color: #6d28d9;
+  color: #007FFF;
 }
 
 .app[data-theme='light'] .button {
-  color: #0f172a;
-  border-color: rgba(0, 0, 0, 0.12);
+  color: #0A2342;
+  border-color: rgba(0, 51, 102, 0.15);
   background: rgba(255, 255, 255, 0.6);
 }
 
 .app[data-theme='light'] .button:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 51, 102, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 31, 63, 0.1);
 }
 
 .app[data-theme='light'] .button.primary {
   color: #ffffff;
-  background: linear-gradient(120deg, #6d28d9, #7c3aed);
+  background: linear-gradient(120deg, #1E90FF, #007FFF);
   border: none;
 }
 
 .app[data-theme='light'] .button.ghost {
-  background: rgba(0, 0, 0, 0.04);
-  color: #0f172a;
+  background: rgba(161, 196, 253, 0.12);
+  color: #0A2342;
 }
 
 .app[data-theme='light'] .contact-actions .button.primary {
   color: #ffffff;
+  background: linear-gradient(120deg, #1E90FF, #007FFF);
 }
 
 .app[data-theme='light'] .photo-frame {
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 51, 102, 0.12);
 }
 
 .app[data-theme='light'] .icon-link img {
@@ -191,13 +192,13 @@ body::-webkit-scrollbar,
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fcd34d, #f97316 60%);
-  box-shadow: 0 0 18px rgba(249, 115, 22, 0.6), 0 0 32px rgba(251, 191, 36, 0.45);
+  background: radial-gradient(circle at 30% 30%, #FDEB71, #FF8C00 60%);
+  box-shadow: 0 0 18px rgba(255, 140, 0, 0.5), 0 0 32px rgba(253, 235, 113, 0.35);
   transition: transform 0.12s ease, box-shadow 0.2s ease;
 }
 
 .cursor-active {
-  box-shadow: 0 0 22px rgba(249, 115, 22, 0.9), 0 0 40px rgba(251, 191, 36, 0.7);
+  box-shadow: 0 0 22px rgba(255, 140, 0, 0.8), 0 0 40px rgba(253, 235, 113, 0.6);
 }
 
 .page-shell {
@@ -216,15 +217,15 @@ body::-webkit-scrollbar,
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(174, 198, 207, 0.1);
   border-radius: 24px;
-  background: rgba(5, 6, 10, 0.2);
+  background: rgba(10, 22, 40, 0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   position: sticky;
   top: 1.2rem;
   z-index: 2;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: 0 1px 0 rgba(174, 198, 207, 0.06);
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -284,17 +285,17 @@ body::-webkit-scrollbar,
 }
 
 .app[data-theme='light'] .theme-toggle {
-  background: rgba(15, 23, 42, 0.1);
-  border-color: rgba(15, 23, 42, 0.5);
-  color: #0f172a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  background: rgba(0, 51, 102, 0.1);
+  border-color: rgba(0, 51, 102, 0.4);
+  color: #0A2342;
+  box-shadow: 0 2px 8px rgba(0, 31, 63, 0.1);
 }
 
 .app[data-theme='light'] .theme-toggle:hover {
-  background: rgba(15, 23, 42, 0.18);
-  border-color: #0f172a;
-  color: #0f172a;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+  background: rgba(0, 51, 102, 0.18);
+  border-color: #0A2342;
+  color: #0A2342;
+  box-shadow: 0 3px 12px rgba(0, 31, 63, 0.15);
 }
 
 .app[data-theme='light'] .theme-toggle svg {
@@ -315,14 +316,14 @@ body::-webkit-scrollbar,
 }
 
 .app[data-theme='light'] .nav a {
-  color: #0f172a;
+  color: #0A2342;
   font-weight: 700;
 }
 
 .app[data-theme='light'] .nav a:hover,
 .app[data-theme='light'] .nav a.active {
-  color: #0f172a;
-  background: rgba(0, 0, 0, 0.06);
+  color: #0A2342;
+  background: rgba(0, 51, 102, 0.08);
 }
 
 .nav a::before {
@@ -386,14 +387,14 @@ body::-webkit-scrollbar,
 }
 
 .app[data-theme='light'] .icon-link {
-  color: #1e1b4b;
-  border-color: rgba(15, 23, 42, 0.2);
-  background: rgba(15, 23, 42, 0.06);
+  color: #0A2342;
+  border-color: rgba(0, 51, 102, 0.2);
+  background: rgba(0, 51, 102, 0.06);
 }
 
 .app[data-theme='light'] .icon-link:hover {
-  background: rgba(15, 23, 42, 0.12);
-  border-color: rgba(15, 23, 42, 0.35);
+  background: rgba(0, 51, 102, 0.12);
+  border-color: rgba(0, 51, 102, 0.35);
 }
 
 main {
@@ -460,8 +461,8 @@ main {
 }
 
 .button.primary {
-  background: linear-gradient(120deg, #7dd3fc, #a78bfa);
-  color: #05060a;
+  background: linear-gradient(120deg, #1E90FF, #007FFF);
+  color: #ffffff;
   border: none;
 }
 
@@ -538,8 +539,8 @@ main {
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid var(--border);
-  background: radial-gradient(circle at 50% 20%, rgba(249, 215, 112, 0.35), transparent 45%),
-    linear-gradient(160deg, rgba(125, 211, 252, 0.25), rgba(167, 139, 250, 0.15));
+  background: radial-gradient(circle at 50% 20%, rgba(253, 235, 113, 0.2), transparent 45%),
+    linear-gradient(160deg, rgba(30, 144, 255, 0.15), rgba(0, 127, 255, 0.1));
 }
 
 /* Clickable hero photo */
@@ -551,8 +552,8 @@ main {
 }
 
 .hero-photo-clickable:hover {
-  border-color: rgba(125, 211, 252, 0.3);
-  box-shadow: 0 0 30px rgba(125, 211, 252, 0.12), 0 0 60px rgba(167, 139, 250, 0.06);
+  border-color: rgba(30, 144, 255, 0.3);
+  box-shadow: 0 0 30px rgba(30, 144, 255, 0.12), 0 0 60px rgba(0, 127, 255, 0.06);
 }
 
 .hero-photo {
@@ -612,7 +613,7 @@ main {
   padding: 1rem;
   transform: rotateY(180deg);
   background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.06), rgba(0,0,0,0.3)),
-    linear-gradient(160deg, rgba(125, 211, 252, 0.2), rgba(167, 139, 250, 0.2));
+    linear-gradient(160deg, rgba(30, 144, 255, 0.15), rgba(0, 127, 255, 0.15));
 }
 
 .flip-quote {
@@ -1174,12 +1175,12 @@ main {
 /* Light theme responsive adjustments */
 @media (max-width: 767px) {
   .app[data-theme='light'] .nav {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(0, 51, 102, 0.06);
   }
 
   .app[data-theme='light'] .hero {
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.6);
   }
 }
 
@@ -1193,7 +1194,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #020206;
+  background: #06101E;
   overflow: hidden;
 }
 
@@ -1267,12 +1268,12 @@ main {
    LIGHT THEME CURSOR
    ============================================ */
 .app[data-theme='light'] .cursor-core {
-  background: radial-gradient(circle at 30% 30%, #1e1b4b, #7c3aed 60%);
-  box-shadow: 0 0 18px rgba(124, 58, 237, 0.7), 0 0 32px rgba(168, 85, 247, 0.5);
+  background: radial-gradient(circle at 30% 30%, #003366, #007FFF 60%);
+  box-shadow: 0 0 18px rgba(0, 127, 255, 0.5), 0 0 32px rgba(30, 144, 255, 0.35);
 }
 
 .app[data-theme='light'] .cursor-core.cursor-active {
-  box-shadow: 0 0 22px rgba(124, 58, 237, 0.95), 0 0 40px rgba(168, 85, 247, 0.7);
+  box-shadow: 0 0 22px rgba(0, 127, 255, 0.8), 0 0 40px rgba(30, 144, 255, 0.6);
 }
 
 .app[data-theme='light'] .cursor-shell {
