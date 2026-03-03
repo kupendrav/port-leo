@@ -13,13 +13,13 @@ interface Star {
 }
 
 const STAR_COLORS = [
-  '#fcd34d', // gold
-  '#7dd3fc', // sky blue
-  '#a78bfa', // violet
-  '#f9a8d4', // pink
-  '#34d399', // emerald
+  '#FDEB71', // warm yellow
+  '#1E90FF', // electric blue
+  '#AEC6CF', // soft pastel blue
+  '#FFD1DC', // soft pink
+  '#BFD8B8', // soft green
   '#ffffff', // white
-  '#f97316', // orange
+  '#FF8C00', // warm orange
 ]
 
 function drawStar(

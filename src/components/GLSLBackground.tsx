@@ -61,12 +61,12 @@ const fragmentShader = `
     float pulse = sin(dist * 4.0 - uTime * 1.5) * 0.5 + 0.5;
     pulse *= exp(-dist * 0.8);
     
-    // Color palette - deep space with energy
-    vec3 col1 = vec3(0.02, 0.02, 0.08); // Deep space
-    vec3 col2 = vec3(0.05, 0.15, 0.35); // Deep blue
-    vec3 col3 = vec3(0.1, 0.4, 0.8);    // Bright blue
-    vec3 col4 = vec3(0.5, 0.2, 0.9);    // Purple
-    vec3 col5 = vec3(0.0, 0.9, 0.7);    // Cyan/teal
+    // Color palette - professional deep blues with soft accents
+    vec3 col1 = vec3(0.04, 0.086, 0.16);  // Deep navy #0A1628
+    vec3 col2 = vec3(0.0, 0.2, 0.4);      // Deep blue #003366
+    vec3 col3 = vec3(0.118, 0.565, 1.0);   // Electric blue #1E90FF
+    vec3 col4 = vec3(0.0, 0.5, 1.0);      // Azure #007FFF
+    vec3 col5 = vec3(0.682, 0.776, 0.812); // Soft pastel #AEC6CF
     
     float n = noise * 0.5 + 0.5;
     vec3 color = mix(col1, col2, smoothstep(0.0, 0.3, n));
@@ -78,7 +78,7 @@ const fragmentShader = `
     vec2 grid = abs(fract(uv * 30.0 - 0.5) - 0.5);
     float gridLine = min(grid.x, grid.y);
     float gridMask = 1.0 - smoothstep(0.0, 0.03, gridLine);
-    color += vec3(0.05, 0.15, 0.3) * gridMask * 0.3 * (1.0 - dist * 0.5);
+    color += vec3(0.0, 0.2, 0.4) * gridMask * 0.3 * (1.0 - dist * 0.5);
     
     // Scanline effect
     float scanline = sin(gl_FragCoord.y * 1.5 + uTime * 2.0) * 0.03;
@@ -91,7 +91,7 @@ const fragmentShader = `
     // Particle-like sparkles
     float sparkle = snoise(uv * 50.0 + uTime * 2.0);
     sparkle = pow(max(sparkle, 0.0), 8.0) * 0.5;
-    color += vec3(0.3, 0.6, 1.0) * sparkle;
+    color += vec3(0.118, 0.565, 1.0) * sparkle;
     
     gl_FragColor = vec4(color, 1.0);
   }

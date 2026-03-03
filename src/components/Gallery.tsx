@@ -52,7 +52,7 @@ export function Gallery({ onBack }: GalleryProps) {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(120% 120% at 20% 20%, rgba(124, 58, 237, 0.15), transparent 45%), radial-gradient(120% 120% at 80% 0%, rgba(125, 211, 252, 0.2), transparent 35%)',
+              'radial-gradient(120% 120% at 20% 20%, rgba(0, 51, 102, 0.2), transparent 45%), radial-gradient(120% 120% at 80% 0%, rgba(30, 144, 255, 0.12), transparent 35%)',
           }}
         />
         {/* Tiny stars */}
@@ -60,7 +60,7 @@ export function Gallery({ onBack }: GalleryProps) {
           className="absolute inset-0 opacity-60"
           style={{
             backgroundImage:
-              'radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7), transparent), radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.5), transparent), radial-gradient(1.5px 1.5px at 50% 10%, rgba(125,211,252,0.8), transparent), radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 90% 80%, rgba(167,139,250,0.7), transparent), radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 60% 75%, rgba(125,211,252,0.6), transparent), radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.4), transparent)',
+              'radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7), transparent), radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.5), transparent), radial-gradient(1.5px 1.5px at 50% 10%, rgba(30,144,255,0.6), transparent), radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 90% 80%, rgba(0,127,255,0.5), transparent), radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 60% 75%, rgba(30,144,255,0.4), transparent), radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.4), transparent)',
             backgroundSize: '200px 200px',
           }}
         />
@@ -85,7 +85,7 @@ export function Gallery({ onBack }: GalleryProps) {
         >
           <span
             className="inline-flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-300 group-hover:-translate-x-1"
-            style={{ borderColor: 'rgba(125, 211, 252, 0.3)', background: 'rgba(125, 211, 252, 0.05)' }}
+            style={{ borderColor: 'rgba(30, 144, 255, 0.25)', background: 'rgba(30, 144, 255, 0.06)' }}
           >
             ←
           </span>
@@ -105,7 +105,7 @@ export function Gallery({ onBack }: GalleryProps) {
             style={{
               fontFamily: "'Syne', 'Space Grotesk', sans-serif",
               color: 'var(--text)',
-              textShadow: '0 0 40px rgba(125, 211, 252, 0.15)',
+              textShadow: '0 0 40px rgba(30, 144, 255, 0.12)',
             }}
           >
             Hackathons & Tech Events
@@ -131,9 +131,9 @@ export function Gallery({ onBack }: GalleryProps) {
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement
-                el.style.border = '1px solid rgba(125, 211, 252, 0.2)'
+                el.style.border = '1px solid rgba(30, 144, 255, 0.2)'
                 el.style.boxShadow =
-                  '0 8px 40px rgba(125, 211, 252, 0.1), 0 0 60px rgba(167, 139, 250, 0.05)'
+                  '0 8px 40px rgba(30, 144, 255, 0.08), 0 0 60px rgba(0, 127, 255, 0.04)'
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement
@@ -161,9 +161,9 @@ export function Gallery({ onBack }: GalleryProps) {
                 <span
                   className="absolute top-3 left-3 px-3 py-1 text-[10px] sm:text-xs font-semibold uppercase tracking-wider rounded-full backdrop-blur-md transition-all duration-300"
                   style={{
-                    background: 'rgba(125, 211, 252, 0.12)',
+                    background: 'rgba(30, 144, 255, 0.1)',
                     color: 'var(--accent)',
-                    border: '1px solid rgba(125, 211, 252, 0.2)',
+                    border: '1px solid rgba(30, 144, 255, 0.2)',
                     fontFamily: "'Space Grotesk', sans-serif",
                   }}
                 >

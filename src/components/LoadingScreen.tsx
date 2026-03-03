@@ -88,7 +88,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
               cy="160"
               r={RADIUS}
               fill="none"
-              stroke="rgba(125, 211, 252, 0.08)"
+              stroke="rgba(30, 144, 255, 0.1)"
               strokeWidth="3"
             />
             {/* Animated progress arc */}
@@ -120,9 +120,9 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
             {/* Gradient definition */}
             <defs>
               <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#7dd3fc" />
-                <stop offset="50%" stopColor="#a78bfa" />
-                <stop offset="100%" stopColor="#f9a8d4" />
+                <stop offset="0%" stopColor="#1E90FF" />
+                <stop offset="50%" stopColor="#007FFF" />
+                <stop offset="100%" stopColor="#AEC6CF" />
               </linearGradient>
             </defs>
           </svg>

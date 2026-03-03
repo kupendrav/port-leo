@@ -2,15 +2,15 @@
 
 :root {
   color-scheme: dark;
-  --bg: #05060a;
-  --bg-strong: #0a0c16;
-  --card: rgba(255, 255, 255, 0.04);
-  --text: #e5ecff;
-  --muted: #9fb3d8;
-  --accent: #7dd3fc;
-  --accent-2: #a78bfa;
-  --border: rgba(255, 255, 255, 0.08);
-  --glow: #f9d770;
+  --bg: #0A1628;
+  --bg-strong: #0F1D32;
+  --card: rgba(174, 198, 207, 0.06);
+  --text: #E8EDF5;
+  --muted: #AEC6CF;
+  --accent: #1E90FF;
+  --accent-2: #FF8C00;
+  --border: rgba(174, 198, 207, 0.14);
+  --glow: #FDEB71;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,24 +24,24 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(120% 120% at 20% 20%, rgba(124, 58, 237, 0.15), transparent 45%),
-    radial-gradient(120% 120% at 80% 0%, rgba(125, 211, 252, 0.2), transparent 35%),
+  background: radial-gradient(120% 120% at 20% 20%, rgba(0, 51, 102, 0.25), transparent 45%),
+    radial-gradient(120% 120% at 80% 0%, rgba(30, 144, 255, 0.12), transparent 35%),
     var(--bg);
   color: var(--text);
   font-family: 'Space Grotesk', 'Syne', 'Segoe UI', sans-serif;
 }
 
-/* Neon text selection highlight */
+/* Soft text selection highlight */
 ::selection {
-  background: rgba(125, 211, 252, 0.35);
-  color: #e0f2fe;
-  text-shadow: 0 0 8px rgba(125, 211, 252, 0.6), 0 0 20px rgba(167, 139, 250, 0.4);
+  background: rgba(30, 144, 255, 0.3);
+  color: #E8EDF5;
+  text-shadow: 0 0 8px rgba(30, 144, 255, 0.4), 0 0 20px rgba(0, 127, 255, 0.3);
 }
 
 ::-moz-selection {
-  background: rgba(125, 211, 252, 0.35);
-  color: #e0f2fe;
-  text-shadow: 0 0 8px rgba(125, 211, 252, 0.6), 0 0 20px rgba(167, 139, 250, 0.4);
+  background: rgba(30, 144, 255, 0.3);
+  color: #E8EDF5;
+  text-shadow: 0 0 8px rgba(30, 144, 255, 0.4), 0 0 20px rgba(0, 127, 255, 0.3);
 }
 
 a {
