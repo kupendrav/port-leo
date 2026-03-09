@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kupendra.netlify.app/sitemap.xml
