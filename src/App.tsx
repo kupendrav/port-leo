@@ -333,7 +333,7 @@ function App() {
 
       <div className="page-shell" ref={scopeRef}>
         <header className="nav">
-          <div className="brand">KVR • Orbit</div>
+          <div className="brand" title="Kupendra Portfolio">KVR • Orbit</div>
           <nav>
             <a href="#work" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Work</a>
             <a href="#about" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>About</a>
@@ -352,12 +352,12 @@ function App() {
         <main>
           <section id="hero" className="hero">
             <div className="hero-copy">
-              <p className="eyebrow">Space-inspired portfolio</p>
+              <p className="eyebrow">Kupendra's Space-inspired portfolio</p>
               <h1>
-                Crafting fast, reliable products with a love for stars, orbits, and immersive UI.
+                Kupendra — Crafting fast, reliable products with a love for stars, orbits, and immersive UI.
               </h1>
               <p className="lede">
-                I design and ship end-to-end experiences across Data Science, AI/ML, Web, Cyber Security, and Web3. This
+                Hi, I'm Kupendra (KVR). I design and ship end-to-end experiences across Data Science, AI/ML, Web, Cyber Security, and Web3. This
                 portfolio pulls my repos, work history, and a CV you can download.
               </p>
 
@@ -400,7 +400,7 @@ function App() {
                 <img
                   ref={heroImgRef}
                   src={photoSrc}
-                  alt="Profile"
+                  alt="Kupendra - Full-Stack Developer and AI/ML Engineer"
                   className={`hero-photo${photoSrc === heroImage ? ' greyscale' : ''}`}
                 />
               </div>
@@ -457,10 +457,10 @@ function App() {
 
           <section id="about" className="panel split">
             <div>
-              <p className="eyebrow">About</p>
-              <h2>Builder with a cosmic streak</h2>
+              <p className="eyebrow">About Kupendra</p>
+              <h2>Kupendra — Builder with a cosmic streak</h2>
               <p className="lede">
-                I’m a builder passionate about data‑driven systems and emerging technologies like Web3. My focus is on combining strong fundamentals in architecture and product design with innovative approaches in AI, automation, and decentralized applications. I deliver solutions end‑to‑end: from system architecture and data pipelines to polished user experiences.
+                Kupendra is a builder passionate about data‑driven systems and emerging technologies like Web3. My focus is on combining strong fundamentals in architecture and product design with innovative approaches in AI, automation, and decentralized applications. I deliver solutions end‑to‑end: from system architecture and data pipelines to polished user experiences.
               </p>
               <ul className="bullets">
                 <li><b>Data Science & AI:</b> Developed intelligent utilities for diagnostics, reinstatements, and content improvement, leveraging machine learning to enhance decision‑making and automation.</li>
