@@ -71,12 +71,12 @@ type Stat = {
 }
 
 const stats: Stat[] = [
-  { label: 'Full-stack builds', value: '15+', detail: 'Web, AI, and Web3' },
-  { label: 'Security & audits', value: '4', detail: 'automation & checks' },
-  { label: 'Data & ML', value: '6', detail: 'experiments & notebooks' },
+  { label: 'End-to-end AI systems', value: '8+', detail: 'ML ops, agentic workflows, API orchestration' },
+  { label: 'Production deployments', value: '15+', detail: 'Web, API, data pipelines, automation' },
+  { label: 'System integrations', value: '20+', detail: 'legacy workflows, ML platforms, cost optimizations' },
 ]
 
-const focusChips = ['Data science','Full-stack', 'AI/ML', 'Security', 'Web3']
+const focusChips = ['AI Engineering', 'ML Ops', 'System Architecture', 'Full-stack', 'Security']
 
 function ProjectCard({ project }: { project: Project }) {
   return (
@@ -108,7 +108,7 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const [theme, setTheme] = useState<'dark' | 'light'>('light')
   const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home')
   const cursorRef = useRef<HTMLDivElement>(null)
@@ -352,13 +352,12 @@ function App() {
         <main>
           <section id="hero" className="hero">
             <div className="hero-copy">
-              <p className="eyebrow">Kupendra's Space-inspired portfolio</p>
+              <p className="eyebrow">AI Engineering & Scalable Systems</p>
               <h1>
-                Kupendra — Crafting fast, reliable products with a love for stars, orbits, and immersive UI.
+                Kupendra — Engineering AI systems that drive measurable product growth and operational efficiency.
               </h1>
               <p className="lede">
-                Hi, I'm Kupendra (KVR). I design and ship end-to-end experiences across Data Science, AI/ML, Web, Cyber Security, and Web3. This
-                portfolio pulls my repos, work history, and a CV you can download.
+                I build end-to-end AI systems and automated workflows that bridge raw data to revenue. From predictive ML platforms intercepting customer churn to machine-to-machine orchestration layers, I focus on architectures with clear ROI—reducing operational drag and accelerating user productivity by 2-3x. Every technical choice is filtered through a business lens: does this reduce inference costs? Does it ship faster? Does it solve the core problem?
               </p>
 
               <div className="cta-row">
@@ -408,9 +407,9 @@ function App() {
               <div className="orbit-card">
                 <div>
                   <p className="eyebrow">Current focus</p>
-                  <h3>Forward-Looking & Innovative</h3>
+                  <h3>Building AI-First Platforms for Scale</h3>
                   <p className="small">
-                     Building trust in digital innovation with expertise in data science, blockchain security audits, and modern cybersecurity strategies.
+                     Engineering production AI systems that move the needle—cost optimization, seamless legacy integration, and measurable product growth.
                   </p>
                 </div>
                 <div className="orbit-links">
@@ -458,15 +457,15 @@ function App() {
           <section id="about" className="panel split">
             <div>
               <p className="eyebrow">About Kupendra</p>
-              <h2>Kupendra — Builder with a cosmic streak</h2>
+              <h2>Engineering AI systems for measurable ROI</h2>
               <p className="lede">
-                Kupendra is a builder passionate about data‑driven systems and emerging technologies like Web3. My focus is on combining strong fundamentals in architecture and product design with innovative approaches in AI, automation, and decentralized applications. I deliver solutions end‑to‑end: from system architecture and data pipelines to polished user experiences.
+                Most AI engineering stops at building expensive wrappers. I engineer end-to-end AI systems and automated workflows that drive revenue—reducing operational drag, intercepting customer churn, and accelerating productivity by 2-3x. Every decision is grounded in unit economics.
               </p>
               <ul className="bullets">
-                <li><b>Data Science & AI:</b> Developed intelligent utilities for diagnostics, reinstatements, and content improvement, leveraging machine learning to enhance decision‑making and automation.</li>
-                <li><b>Security & Trust:</b> Architected secure flows across payments, audits, and profile protection, ensuring reliability and compliance in sensitive environments.</li>
-                <li><b>Web3 & Emerging Tech:</b> Experimented with decentralized applications and blockchain‑based systems, exploring new models for trust, transparency, and user empowerment.</li>
-                <li><b>Product & UX:</b> Shipped dashboards, habit‑forming tools, and student operations systems with responsive, user‑friendly interfaces that balance functionality with delight.</li>
+                <li><b>End-to-End AI Systems:</b> Designed predictive ML platforms for churn interception, agentic workflows for task automation, and cost-optimized inference pipelines—each with measurable ROI metrics.</li>
+                <li><b>System Architecture:</b> Built resilient architectures integrating legacy workflows with modern AI—API orchestration, data pipeline optimization, and machine-to-machine automation layers that scale.</li>
+                <li><b>Production ML Ops:</b> Deployed ML models to production at scale—monitoring, versioning, cost modeling, and real-time inference infrastructure designed for reliability and cost efficiency.</li>
+                <li><b>Business-Driven Engineering:</b> Technical choices filtered through ROI: does this reduce inference costs? Does it ship faster? Does it solve the core problem or just look impressive?</li>
               </ul>
             </div>
             <div className="stack-card">
@@ -474,7 +473,7 @@ function App() {
 
               <h4 className="stack-title">Languages</h4>
               <div className="chip-grid">
-                {['TypeScript', 'JavaScript', 'Python', 'Solidity'].map(
+                {['Python', 'TypeScript', 'JavaScript', 'SQL'].map(
                   (item) => (
                     <span key={item} className="pill">
                       {item}
@@ -483,9 +482,9 @@ function App() {
                 )}
               </div>
 
-              <h4 className="stack-title">Frameworks</h4>
+              <h4 className="stack-title">AI / ML Stack</h4>
               <div className="chip-grid">
-                {['React', 'Node', 'Vite', 'Three.js'].map(
+                {['LLMs', 'Scikit-learn', 'TensorFlow', 'Pandas', 'NumPy'].map(
                   (item) => (
                     <span key={item} className="pill">
                       {item}
@@ -494,9 +493,20 @@ function App() {
                 )}
               </div>
 
-              <h4 className="stack-title">Libraries</h4>
+              <h4 className="stack-title">Frameworks & Tools</h4>
               <div className="chip-grid">
-                {['@react-three/fiber', 'Framer Motion', 'GSAP', 'Data notebooks'].map(
+                {['React', 'Node.js', 'FastAPI', 'PostgreSQL', 'Anthropic SDK'].map(
+                  (item) => (
+                    <span key={item} className="pill">
+                      {item}
+                    </span>
+                  ),
+                )}
+              </div>
+
+              <h4 className="stack-title">Production & Ops</h4>
+              <div className="chip-grid">
+                {['Docker', 'CI/CD', 'Monitoring', 'Cost Optimization', 'System Architecture'].map(
                   (item) => (
                     <span key={item} className="pill">
                       {item}
@@ -510,9 +520,9 @@ function App() {
           <section id="contact" className="panel contact">
             <div>
               <p className="eyebrow">Contact</p>
-              <h2>Let&apos;s collaborate</h2>
+              <h2>Let&apos;s build AI at scale</h2>
               <p className="lede">
-                Need a full-stack build with immersive visuals and secure foundations? I can help.
+                Building an AI-first platform and want to bounce ideas around system architecture or product growth? Let's connect.
               </p>
               <div className="contact-actions">
                 <a className="button primary" href={`mailto:${contactEmail}`}>
