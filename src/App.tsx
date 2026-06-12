@@ -1,553 +1,629 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Text } from '@react-three/drei'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import {
   LuArrowUpRight,
   LuDownload,
   LuGithub,
-  LuLink2,
   LuMail,
-  LuMapPin,
-  LuSend,
-  LuMoon,
-  LuSun,
+  LuRadio,
+  LuRocket,
+  LuSatellite,
+  LuVolume2,
+  LuVolumeX,
+  LuZap,
 } from 'react-icons/lu'
-import { projects, type Project, DOMAIN_ORDER } from './data/projects'
+import type { Points } from 'three'
+import { AdditiveBlending, BufferAttribute, BufferGeometry, Color, MathUtils } from 'three'
+import { gsap, ScrollTrigger } from './lib/gsap'
+import { projects } from './data/projects'
 import './App.css'
-import { gsap, useGSAP, ScrollTrigger, smoothScrollTo } from './lib/gsap'
-import { LoadingScreen } from './components/LoadingScreen'
-import { StarClickEffect } from './components/StarClickEffect'
-import { Gallery } from './components/Gallery'
-import heroImage from './photos/image.jpeg'
 
-// Google Drive photo IDs — converted to thumbnail URLs
-const drivePhotoIds = [
-  '125yU5rDweMtxOrGnqRc0samU1hLTw_hm',
-  '14vGGA4q8Z3xe3IanBbwqGCS8E5CAFpeu',
-  '15NcYx5KmGuuLSDu-AiHc3wG53BzIrtoi',
-  '16ZXfXXEE-aG5_vamXeHDWgZd5_Pucz6p',
-  '1DXoRQd0rVoZhV6Du7_bAuUDcoZwvzJ5m',
-  '1Di9ZNPaCJyogoK9O74pKOdG7HeTlSxaZ',
-  '1HnxCkPBlJsW7CeGnAdMAlshP8QYVTMn_',
-  '1JjZkYJKPPzwNbVcTM08iVp_4pzXWVEvP',
-  '1LOwWWei92bIEVSFc2BeLrKrGvBxjh_8q',
-  '1MMiErtRLVKh9bR_qADglezdaKkgcYSIm',
-  '1MYc0vdaSVfoO9qNbQQWWtV3JibTYY4HY',
-  '1PQZn_Frx-Z545PZUrvCuVlvzhzuJXzyK',
-  '1RCYslRZixJ7xvtGX0B6vjD4ZjTxqt_oV',
-  '1UkTFAZKmHw4d3OyssuMe819LmquYNwPW',
-  '1V4lTSYIeWsLCJxYMRnG4u7m1xtEmiAt-',
-  '1Wrxi-5ldQlxdJgnaVwTagO3erEcLmyBU',
-  '1XwV-pYTAeJGwDAkIO1372vcgIpGIdbmy',
-  '1YKg77efNH0o_eWFrHF4tidQP0b78z2Wo',
-  '1ZDjgLzd8bc3EgYdzF9K2wwTCYoXh7Y8V',
-  '1ZMEMukb4rEaYdbQ0OhdbKY9d9Le9LBqZ',
-  '1bG1erT3N-HtWKBXKrVZxNSZ3Ui-v4-k2',
-  '1eKSRn26HUxsY1iV7GvjIdc2FF_jyXzFB',
-  '1eRzIgd4T15c6rJmf_G7eEjR9S2LuHsyM',
-  '1fDbGREwXpsn-nm2K16I5jm2NbSNrZPEE',
-  '1fZGX4W8TVjcXuImyoiKWaBdA-FfrTqPC',
-  '1iM88GqmerRifbYN6vhFFzCDBN1QtZRVP',
-  '1ll4n47_VDubHmoRA7oznIx3eWCwNpjxC',
-  '1s3EGNB50QvSAxs2GApgwFNM7JiKMyH5b',
-  '1swRKMRL1jMhxtS1bH85FKHfiWO3DZLnT',
-  '1tVIxEMEbR2uyOkfq3-Ai8_19taTJufHb',
-  '1uBy7gzStDuvGY-81V7qcLxJiq4BE9MRm',
-  '1w3A-teeITAfs5cS6p2ux-D-Uswk9dczo',
-]
-const drivePhotoUrls = drivePhotoIds.map(
-  (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w1200`,
-)
+type Repo = {
+  id: number
+  name: string
+  description: string | null
+  html_url: string
+  homepage: string | null
+  language: string | null
+  stargazers_count: number
+  forks_count: number
+  updated_at: string
+}
 
-const cvUrl = '/cv.pdf'
+type Achievement = {
+  id: string
+  title: string
+  xp: number
+}
+
+const username = import.meta.env.VITE_GITHUB_USERNAME || 'kupendrav'
 const contactEmail = 'kupendravr@zohomail.in'
-const socialLinks = {
-  github: 'https://github.com/kupendrav',
-  linkedin: 'https://www.linkedin.com/in/kupendrav99/',
-}
+const cvUrl = '/cv.pdf'
 
-type Stat = {
-  label: string
-  value: string
-  detail?: string
-}
-
-const stats: Stat[] = [
-  { label: 'End-to-end AI systems', value: '8+', detail: 'ML ops, agentic workflows, API orchestration' },
-  { label: 'Production deployments', value: '15+', detail: 'Web, API, data pipelines, automation' },
-  { label: 'System integrations', value: '20+', detail: 'legacy workflows, ML platforms, cost optimizations' },
+const achievements: Achievement[] = [
+  { id: 'first-contact', title: 'First Contact', xp: 20 },
+  { id: 'neural-link', title: 'Neural Link', xp: 35 },
+  { id: 'mission-launched', title: 'Mission Launched', xp: 45 },
+  { id: 'star-collector', title: 'Star Collector', xp: 60 },
+  { id: 'transmission-sent', title: 'Transmission Sent', xp: 70 },
+  { id: 'galaxy-brain', title: 'Galaxy Brain', xp: 90 },
+  { id: 'god-mode', title: 'God Mode', xp: 150 },
 ]
 
-const focusChips = ['AI Engineering', 'ML Ops', 'System Architecture', 'Full-stack', 'Security']
+const skillGroups = [
+  ['AI', 'LLMs', 'ML Ops', 'Pandas', 'TensorFlow'],
+  ['React', 'TypeScript', 'Node', 'FastAPI', 'PostgreSQL'],
+  ['Docker', 'CI/CD', 'Cloud', 'Automation', 'Systems'],
+]
 
-function ProjectCard({ project }: { project: Project }) {
+const timeline = [
+  ['2026', 'AI-first systems', 'Designing automation layers, inference-aware APIs, and product loops with measurable ROI.'],
+  ['2025', 'Production builds', 'Shipping full-stack platforms, dashboards, and ML-enabled workflows across real users.'],
+  ['2024', 'Hackathon orbit', 'Building fast, presenting publicly, and turning event pressure into product instincts.'],
+]
+
+const equation = 'Psi(Kupendra) = int [nabla^2 phi + lambda AI(t) + sigma code(n)] d3x dt'
+const fallbackRepos: Repo[] = projects.map((project, index) => ({
+  id: index + 1,
+  name: project.title,
+  description: project.description,
+  html_url: project.links.find((link) => link.label.toLowerCase().includes('github'))?.href || socialGithub(),
+  homepage: project.links.find((link) => !link.label.toLowerCase().includes('github'))?.href || null,
+  language: project.tech[0] || 'TypeScript',
+  stargazers_count: Math.max(1, project.tech.length + index),
+  forks_count: Math.max(0, Math.floor(index / 2)),
+  updated_at: new Date(Date.now() - index * 86400000 * 9).toISOString(),
+}))
+
+function socialGithub() {
+  return `https://github.com/${username}`
+}
+
+function GalaxyField() {
+  const pointsRef = useRef<Points>(null)
+  const geometry = useMemo(() => {
+    const particleCount = window.matchMedia('(max-width: 720px)').matches ? 18000 : 70000
+    const positions = new Float32Array(particleCount * 3)
+    const colors = new Float32Array(particleCount * 3)
+    const colorA = new Color('#00f5ff')
+    const colorB = new Color('#f59e0b')
+    const colorC = new Color('#e2e8f0')
+
+    for (let i = 0; i < particleCount; i += 1) {
+      const angle = i * 2.399963
+      const radius = Math.sqrt(i / particleCount) * 42
+      const jitter = Math.sin(i * 12.9898) * 0.6
+      positions[i * 3] = Math.cos(angle) * radius + jitter
+      positions[i * 3 + 1] = (Math.sin(i * 0.37) + Math.cos(i * 0.11)) * 1.1
+      positions[i * 3 + 2] = Math.sin(angle) * radius + Math.cos(i * 78.23) * 0.8
+
+      const mix = i / particleCount
+      const color = mix < 0.5 ? colorA.clone().lerp(colorC, mix * 2) : colorC.clone().lerp(colorB, (mix - 0.5) * 2)
+      colors[i * 3] = color.r
+      colors[i * 3 + 1] = color.g
+      colors[i * 3 + 2] = color.b
+    }
+
+    const bufferGeometry = new BufferGeometry()
+    bufferGeometry.setAttribute('position', new BufferAttribute(positions, 3))
+    bufferGeometry.setAttribute('color', new BufferAttribute(colors, 3))
+    return bufferGeometry
+  }, [])
+
+  useFrame(({ clock, pointer, camera }) => {
+    if (!pointsRef.current) return
+    pointsRef.current.rotation.y = clock.elapsedTime * 0.025
+    pointsRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.12) * 0.05
+    camera.position.x = MathUtils.lerp(camera.position.x, pointer.x * 2.2, 0.035)
+    camera.position.y = MathUtils.lerp(camera.position.y, pointer.y * 1.1, 0.035)
+    camera.lookAt(0, 0, 0)
+  })
+
   return (
-    <article className="project-card">
-      <div className="project-top">
-        <div>
-          <p className="eyebrow">Featured build</p>
-          <h3>{project.title}</h3>
-        </div>
-        <div className="project-links">
-          {project.links.map((link) => (
-            <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
-              {link.label}
-              <LuArrowUpRight aria-hidden />
-            </a>
-          ))}
-        </div>
-      </div>
-      <p className="project-description">{project.description}</p>
-      <div className="tag-row">
-        {project.tech.map((tag) => (
-          <span key={tag} className="pill">
-            {tag}
-          </span>
-        ))}
-      </div>
-    </article>
+    <>
+      <points ref={pointsRef} geometry={geometry}>
+        <pointsMaterial
+          size={0.045}
+          vertexColors
+          transparent
+          opacity={0.95}
+          depthWrite={false}
+          blending={AdditiveBlending}
+        />
+      </points>
+      <mesh rotation={[0.9, 0.2, 0.4]}>
+        <torusKnotGeometry args={[4.2, 0.08, 220, 16, 2, 5]} />
+        <meshBasicMaterial color="#00f5ff" wireframe transparent opacity={0.22} />
+      </mesh>
+      <Text position={[0, 0.7, 0]} fontSize={1.2} color="#e2e8f0" anchorX="center" anchorY="middle">
+        KUPENDRA
+      </Text>
+    </>
   )
 }
 
-function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('light')
-  const [isLoading, setIsLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home')
-  const cursorRef = useRef<HTMLDivElement>(null)
-  const scopeRef = useRef<HTMLDivElement>(null)
+function EquationRain() {
+  const symbols = ['E=mc^2', 'd psi / dt', 'sigma(Wx+b)', 'nabla x B', 'int AI(t)', 'lambda -> code', 'pi r^2']
 
-  const [photoSrc, setPhotoSrc] = useState<string>(heroImage)
-  const heroImgRef = useRef<HTMLImageElement>(null)
-  const lastIndexRef = useRef<number>(-1)
+  return (
+    <div className="equation-rain" aria-hidden>
+      {Array.from({ length: 26 }).map((_, index) => (
+        <span
+          key={index}
+          style={{
+            left: `${(index * 37) % 100}%`,
+            animationDelay: `${(index % 9) * -1.3}s`,
+            animationDuration: `${10 + (index % 7)}s`,
+          }}
+        >
+          {symbols[index % symbols.length]}
+        </span>
+      ))}
+    </div>
+  )
+}
 
-  const handleLoadingComplete = useCallback(() => {
-    setIsLoading(false)
-  }, [])
+function QuantumCursor() {
+  const ringRef = useRef<HTMLDivElement>(null)
+  const dotRef = useRef<HTMLDivElement>(null)
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
-  }
-
-  // Click hero photo → random Drive image with crossfade
-  const handleHeroPhotoClick = () => {
-    const img = heroImgRef.current
-    if (!img) return
-
-    // Pick a random index different from the last one
-    let idx: number
-    do {
-      idx = Math.floor(Math.random() * drivePhotoUrls.length)
-    } while (idx === lastIndexRef.current && drivePhotoUrls.length > 1)
-    lastIndexRef.current = idx
-
-    const nextUrl = drivePhotoUrls[idx]
-
-    // Preload the image before transitioning
-    const preload = new Image()
-    preload.src = nextUrl
-    preload.onload = () => {
-      // GSAP crossfade: blur out → swap → blur in
-      gsap.to(img, {
-        opacity: 0,
-        scale: 0.96,
-        filter: 'blur(8px)',
-        duration: 0.3,
-        ease: 'power2.in',
-        onComplete: () => {
-          setPhotoSrc(nextUrl)
-          gsap.fromTo(
-            img,
-            { opacity: 0, scale: 1.05, filter: 'blur(8px)' },
-            { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' },
-          )
-        },
-      })
-    }
-    preload.onerror = () => {
-      // If load fails, just try the next one
-      lastIndexRef.current = idx
-      handleHeroPhotoClick()
-    }
-  }
-
-  // Simple cursor follow (core dot only)
   useEffect(() => {
-    const cursor = cursorRef.current
-    if (!cursor) return
+    const ring = ringRef.current
+    const dot = dotRef.current
+    if (!ring || !dot) return
 
     let targetX = window.innerWidth / 2
     let targetY = window.innerHeight / 2
     let currentX = targetX
     let currentY = targetY
-    let rafId = 0
+    let frame = 0
 
-    const handleMove = (e: PointerEvent) => {
-      targetX = e.clientX
-      targetY = e.clientY
+    const move = (event: PointerEvent) => {
+      targetX = event.clientX
+      targetY = event.clientY
+      dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`
     }
 
-    const handleDown = () => cursor.classList.add('cursor-active')
-    const handleUp = () => cursor.classList.remove('cursor-active')
-
+    const down = () => ring.classList.add('is-clicking')
+    const up = () => ring.classList.remove('is-clicking')
+    const over = (event: Event) => {
+      const target = event.target as HTMLElement
+      ring.classList.toggle('is-hovering', Boolean(target.closest('a, button, input, textarea')))
+    }
     const tick = () => {
-      currentX += (targetX - currentX) * 0.18
-      currentY += (targetY - currentY) * 0.18
-      cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`
-      rafId = requestAnimationFrame(tick)
+      currentX += (targetX - currentX) * 0.12
+      currentY += (targetY - currentY) * 0.12
+      ring.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`
+      frame = requestAnimationFrame(tick)
     }
 
-    window.addEventListener('pointermove', handleMove)
-    window.addEventListener('pointerdown', handleDown)
-    window.addEventListener('pointerup', handleUp)
-    rafId = requestAnimationFrame(tick)
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerdown', down)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('mouseover', over)
+    tick()
 
     return () => {
-      window.removeEventListener('pointermove', handleMove)
-      window.removeEventListener('pointerdown', handleDown)
-      window.removeEventListener('pointerup', handleUp)
-      cancelAnimationFrame(rafId)
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerdown', down)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('mouseover', over)
+      cancelAnimationFrame(frame)
     }
   }, [])
 
-
-
-  // GSAP-powered UI animations
-  useGSAP(
-    () => {
-      const ctx = gsap.context(() => {
-        // Brand text intro
-        gsap.fromTo(
-          '.brand',
-          { opacity: 0, y: -8 },
-          { opacity: 1, y: 0, ease: 'power2.out', duration: 0.6 },
-        )
-
-        // Nav items stagger in
-        gsap.from('.nav nav > a, .theme-toggle', {
-          y: -8,
-          opacity: 0,
-          duration: 0.5,
-          stagger: 0.06,
-          ease: 'power2.out',
-        })
-
-        // Hero copy stagger
-        const heroOrder = [
-          '.hero .eyebrow',
-          '.hero h1',
-          '.hero .lede',
-          '.hero .cta-row .button',
-          '.hero .chip-row .pill',
-          '.hero .stat-card',
-        ]
-        gsap.set(heroOrder.join(','), { opacity: 0, y: 16 })
-        gsap.to(heroOrder, {
-          y: 0,
-          opacity: 1,
-          ease: 'power3.out',
-          duration: 0.7,
-          stagger: 0.08,
-        })
-
-        // Photo slight float
-        gsap.from('.photo-frame', { opacity: 0, y: 24, duration: 0.7, ease: 'power3.out' })
-
-        // Panels reveal on scroll
-        gsap.utils.toArray<HTMLElement>('.panel').forEach((panel) => {
-          gsap.from(panel, {
-            y: 40,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: panel,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-            },
-          })
-        })
-
-        // Project cards stagger on scroll + hover polish
-        gsap.utils.toArray<HTMLElement>('.project-card').forEach((card) => {
-          gsap.from(card, {
-            y: 24,
-            opacity: 0,
-            duration: 0.6,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: card, start: 'top 85%' },
-          })
-
-          const enter = () => gsap.to(card, { y: -4, duration: 0.18, ease: 'power2.out' })
-          const leave = () => gsap.to(card, { y: 0, duration: 0.2, ease: 'power2.out' })
-          card.addEventListener('mouseenter', enter)
-          card.addEventListener('mouseleave', leave)
-          ScrollTrigger.create({ trigger: card, onKill: () => {
-            card.removeEventListener('mouseenter', enter)
-            card.removeEventListener('mouseleave', leave)
-          } })
-        })
-
-        // Smooth scroll for internal anchor links
-        const links = gsap.utils.toArray<HTMLAnchorElement>(".nav a[href^='#'], .hero .button[href^='#']")
-        links.forEach((a) => {
-          a.addEventListener('click', (e) => {
-            const href = a.getAttribute('href') || ''
-            if (href.startsWith('#')) {
-              e.preventDefault()
-              const target = href
-              smoothScrollTo(target, 0.9)
-            }
-          })
-        })
-
-        // Active link highlight per section
-        const sections = ['#hero', '#work', '#about', '#contact']
-        sections.forEach((sel) => {
-          const section = document.querySelector(sel)
-          const navLink = document.querySelector(`.nav a[href='${sel}']`)
-          if (!section || !navLink) return
-          ScrollTrigger.create({
-            trigger: section,
-            start: 'top center',
-            end: 'bottom center',
-            onEnter: () => navLink.classList.add('active'),
-            onEnterBack: () => navLink.classList.add('active'),
-            onLeave: () => navLink.classList.remove('active'),
-            onLeaveBack: () => navLink.classList.remove('active'),
-          })
-        })
-      }, scopeRef)
-
-      return () => ctx.revert()
-    },
-    { scope: scopeRef },
+  return (
+    <div className="quantum-cursor" aria-hidden>
+      <div ref={ringRef} className="cursor-ring" />
+      <div ref={dotRef} className="cursor-dot" />
+    </div>
   )
+}
+
+function Hud({
+  xp,
+  unlocked,
+  audioEnabled,
+  onToggleAudio,
+}: {
+  xp: number
+  unlocked: string[]
+  audioEnabled: boolean
+  onToggleAudio: () => void
+}) {
+  const level = Math.max(1, Math.floor(xp / 120) + 1)
+  const progress = xp % 120
 
   return (
-    <div className="app" data-theme={theme}>
-      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
-      <StarClickEffect />
-
-      {/* Simplified cursor — single dot */}
-      <div className="cursor-shell" aria-hidden>
-        <div ref={cursorRef} className="cursor-core" />
+    <aside className="hud" aria-label="Explorer progress">
+      <div>
+        <span>EXPLORER LVL {level}</span>
+        <progress value={progress} max={120} />
       </div>
+      <span>XP {xp}</span>
+      <span>{unlocked.length}/{achievements.length} ACH</span>
+      <button type="button" onClick={onToggleAudio} aria-label="Toggle ambient audio">
+        {audioEnabled ? <LuVolume2 aria-hidden /> : <LuVolumeX aria-hidden />}
+      </button>
+    </aside>
+  )
+}
 
-      <div className="page-shell" ref={scopeRef}>
-        <header className="nav">
-          <div className="brand" title="Kupendra Portfolio">KVR • Orbit</div>
-          <nav>
-            <a href="#work" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Work</a>
-            <a href="#about" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>About</a>
-            <a href="#contact" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Contact</a>
-            <a href="#gallery" className={currentPage === 'gallery' ? 'active' : ''} onClick={(e) => { e.preventDefault(); setCurrentPage('gallery'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Gallery</a>
-            <button className="theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-              {theme === 'dark' ? <LuSun aria-hidden /> : <LuMoon aria-hidden />}
-              <span className="sr-only">Toggle theme</span>
-            </button>
-          </nav>
-        </header>
+function LoadingScreen({ ready }: { ready: boolean }) {
+  const facts = [
+    'INITIALIZING QUANTUM MATRIX',
+    'SOLVING ORBITAL PATHS',
+    'COMPILING STARLIGHT',
+    'ALIGNING NEURAL VECTORS',
+  ]
+  const [progress, setProgress] = useState(0)
 
-        {currentPage === 'gallery' ? (
-          <Gallery onBack={() => setCurrentPage('home')} />
-        ) : (
-        <main>
-          <section id="hero" className="hero">
-            <div className="hero-copy">
-              <p className="eyebrow">AI Engineering & Scalable Systems</p>
-              <h1>
-                Kupendra — Engineering AI systems that drive measurable product growth and operational efficiency.
-              </h1>
-              <p className="lede">
-                I build end-to-end AI systems and automated workflows that bridge raw data to revenue. From predictive ML platforms intercepting customer churn to machine-to-machine orchestration layers, I focus on architectures with clear ROI—reducing operational drag and accelerating user productivity by 2-3x. Every technical choice is filtered through a business lens: does this reduce inference costs? Does it ship faster? Does it solve the core problem?
-              </p>
+  useEffect(() => {
+    if (ready) return
+    const id = window.setInterval(() => setProgress((value) => Math.min(value + 7, 96)), 160)
+    return () => window.clearInterval(id)
+  }, [ready])
 
-              <div className="cta-row">
-                <a className="button primary" href={cvUrl} download>
-                  <LuDownload aria-hidden />
-                  Download CV
-                </a>
-                <a className="button ghost" href="#contact">
-                  <LuSend aria-hidden />
-                  Let&apos;s talk
-                </a>
-              </div>
+  return (
+    <AnimatePresence>
+      {!ready && (
+        <motion.div className="quantum-loader" exit={{ opacity: 0, y: '-8%' }} transition={{ duration: 0.8 }}>
+          <div className="binary-stars">
+            <span />
+            <span />
+          </div>
+          <div className="orbit-progress">
+            <i style={{ transform: `rotate(${progress * 3.6}deg)` }} />
+          </div>
+          <p>{facts[Math.floor(progress / 25) % facts.length]}... {progress}%</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
-              <div className="chip-row">
-                {focusChips.map((chip) => (
-                  <span key={chip} className="pill muted">
-                    {chip}
-                  </span>
-                ))}
-              </div>
+function MissionCard({ repo, index, onReward }: { repo: Repo; index: number; onReward: (id: string) => void }) {
+  const updated = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(new Date(repo.updated_at))
+  const live = repo.homepage && repo.homepage.startsWith('http') ? repo.homepage : ''
 
-              <div className="stat-grid">
-                {stats.map((item) => (
-                  <div key={item.label} className="stat-card">
-                    <p className="stat-value">{item.value}</p>
-                    <p className="stat-label">{item.label}</p>
-                    <p className="stat-detail">{item.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hero-visual">
-              <div
-                className="photo-frame hero-photo-clickable"
-                onClick={handleHeroPhotoClick}
-                title="Click to shuffle photo"
-              >
-                <img
-                  ref={heroImgRef}
-                  src={photoSrc}
-                  alt="Kupendra - Full-Stack Developer and AI/ML Engineer"
-                  className={`hero-photo${photoSrc === heroImage ? ' greyscale' : ''}`}
-                />
-              </div>
-
-              <div className="orbit-card">
-                <div>
-                  <p className="eyebrow">Current focus</p>
-                  <h3>Building AI-First Platforms for Scale</h3>
-                  <p className="small">
-                     Engineering production AI systems that move the needle—cost optimization, seamless legacy integration, and measurable product growth.
-                  </p>
-                </div>
-                <div className="orbit-links">
-                  <a href="https://github.com/kupendrav?tab=repositories" target="_blank" rel="noreferrer">
-                    <LuLink2 aria-hidden />
-                    All repos
-                  </a>
-                  <a href={`mailto:${contactEmail}`}>
-                    <LuMail aria-hidden />
-                    Email
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section id="work" className="panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">Selected work</p>
-                <h2>Projects from the GitHub constellation</h2>
-              </div>
-              <a className="button subtle" href={`${socialLinks.github}?tab=repositories`} target="_blank" rel="noreferrer">
-                <LuGithub aria-hidden />
-                View GitHub
-              </a>
-            </div>
-
-            {DOMAIN_ORDER.map((domain) => {
-              const items = projects.filter((p) => p.domain === domain)
-              if (items.length === 0) return null
-              return (
-                <div key={domain} className="domain-section">
-                  <h3 className="domain-heading">{domain}</h3>
-                  <div className="projects-grid">
-                    {items.map((project) => (
-                      <ProjectCard key={project.title} project={project} />
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-          </section>
-
-          <section id="about" className="panel split">
-            <div>
-              <p className="eyebrow">About Kupendra</p>
-              <h2>Engineering AI systems for measurable ROI</h2>
-              <p className="lede">
-                Most AI engineering stops at building expensive wrappers. I engineer end-to-end AI systems and automated workflows that drive revenue—reducing operational drag, intercepting customer churn, and accelerating productivity by 2-3x. Every decision is grounded in unit economics.
-              </p>
-              <ul className="bullets">
-                <li><b>End-to-End AI Systems:</b> Designed predictive ML platforms for churn interception, agentic workflows for task automation, and cost-optimized inference pipelines—each with measurable ROI metrics.</li>
-                <li><b>System Architecture:</b> Built resilient architectures integrating legacy workflows with modern AI—API orchestration, data pipeline optimization, and machine-to-machine automation layers that scale.</li>
-                <li><b>Production ML Ops:</b> Deployed ML models to production at scale—monitoring, versioning, cost modeling, and real-time inference infrastructure designed for reliability and cost efficiency.</li>
-                <li><b>Business-Driven Engineering:</b> Technical choices filtered through ROI: does this reduce inference costs? Does it ship faster? Does it solve the core problem or just look impressive?</li>
-              </ul>
-            </div>
-            <div className="stack-card">
-              <p className="eyebrow">Toolbox</p>
-
-              <h4 className="stack-title">Languages</h4>
-              <div className="chip-grid">
-                {['Python', 'TypeScript', 'JavaScript', 'SQL'].map(
-                  (item) => (
-                    <span key={item} className="pill">
-                      {item}
-                    </span>
-                  ),
-                )}
-              </div>
-
-              <h4 className="stack-title">AI / ML Stack</h4>
-              <div className="chip-grid">
-                {['LLMs', 'Scikit-learn', 'TensorFlow', 'Pandas', 'NumPy'].map(
-                  (item) => (
-                    <span key={item} className="pill">
-                      {item}
-                    </span>
-                  ),
-                )}
-              </div>
-
-              <h4 className="stack-title">Frameworks & Tools</h4>
-              <div className="chip-grid">
-                {['React', 'Node.js', 'FastAPI', 'PostgreSQL', 'Anthropic SDK'].map(
-                  (item) => (
-                    <span key={item} className="pill">
-                      {item}
-                    </span>
-                  ),
-                )}
-              </div>
-
-              <h4 className="stack-title">Production & Ops</h4>
-              <div className="chip-grid">
-                {['Docker', 'CI/CD', 'Monitoring', 'Cost Optimization', 'System Architecture'].map(
-                  (item) => (
-                    <span key={item} className="pill">
-                      {item}
-                    </span>
-                  ),
-                )}
-              </div>
-            </div>
-          </section>
-
-          <section id="contact" className="panel contact">
-            <div>
-              <p className="eyebrow">Contact</p>
-              <h2>Let&apos;s build AI at scale</h2>
-              <p className="lede">
-                Building an AI-first platform and want to bounce ideas around system architecture or product growth? Let's connect.
-              </p>
-              <div className="contact-actions">
-                <a className="button primary" href={`mailto:${contactEmail}`}>
-                  <LuMail aria-hidden />
-                  {contactEmail}
-                </a>
-                <div className="social-icons">
-                  <a href={socialLinks.github} target="_blank" rel="noreferrer" className="icon-link" title="GitHub">
-                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/github.png" alt="" aria-hidden />
-                    <span className="sr-only">GitHub</span>
-                  </a>
-                  <a href={socialLinks.linkedin} target="_blank" rel="noreferrer" className="icon-link" title="LinkedIn">
-                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/linkedin.png" alt="" aria-hidden />
-                    <span className="sr-only">LinkedIn</span>
-                  </a>
-                </div>
-                <span className="location">
-                  <LuMapPin aria-hidden /> Planet Earth, Milky Way
-                </span>
-              </div>
-            </div>
-          </section>
-        </main>
+  return (
+    <motion.article
+      className="mission-card"
+      initial={{ opacity: 0, y: 90, rotateX: 18 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.75, delay: Math.min(index * 0.04, 0.35), ease: [0.16, 1, 0.3, 1] }}
+      onMouseEnter={() => onReward('star-collector')}
+    >
+      <div className="mission-card__shine" />
+      <div className="mission-card__top">
+        <span>MISSION {String(index + 1).padStart(2, '0')}</span>
+        <b>{repo.language || 'Code'}</b>
+      </div>
+      <h3>{repo.name.replaceAll('-', ' ')}</h3>
+      <p>{repo.description || 'Experimental build from the GitHub constellation.'}</p>
+      <canvas className="commit-sparkline" width="320" height="42" aria-hidden />
+      <div className="repo-stats">
+        <span>STAR {repo.stargazers_count}</span>
+        <span>FORK {repo.forks_count}</span>
+        <span>{updated}</span>
+      </div>
+      <div className="mission-actions">
+        {live && (
+          <a
+            href={live}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => onReward('mission-launched')}
+            aria-label={`Live demo of Kupendra project ${repo.name}`}
+          >
+            <LuRocket aria-hidden />
+            Live Demo
+          </a>
         )}
+        <a href={repo.html_url} target="_blank" rel="noreferrer" aria-label={`GitHub repository for Kupendra project ${repo.name}`}>
+          <LuGithub aria-hidden />
+          GitHub
+        </a>
       </div>
+    </motion.article>
+  )
+}
+
+function ContactTerminal({ onSubmit }: { onSubmit: () => void }) {
+  const [message, setMessage] = useState('')
+
+  return (
+    <form
+      className="contact-terminal"
+      onSubmit={(event) => {
+        event.preventDefault()
+        onSubmit()
+        window.location.href = `mailto:${contactEmail}?subject=Transmission from portfolio&body=${encodeURIComponent(message)}`
+      }}
+    >
+      <label>
+        Signal
+        <textarea
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+          placeholder="Describe the system you want to build..."
+          required
+        />
+      </label>
+      <div className="waveform" aria-hidden>
+        {Array.from({ length: 28 }).map((_, index) => (
+          <span key={index} style={{ height: `${18 + ((message.length + index * 7) % 42)}px` }} />
+        ))}
+      </div>
+      <button type="submit">
+        <LuSatellite aria-hidden />
+        Establish Transmission
+      </button>
+    </form>
+  )
+}
+
+function App() {
+  const [repos, setRepos] = useState<Repo[]>(fallbackRepos)
+  const [siteReady, setSiteReady] = useState(false)
+  const [xp, setXp] = useState(() => Number(localStorage.getItem('kvr-xp') || 0))
+  const [unlocked, setUnlocked] = useState<string[]>(() => JSON.parse(localStorage.getItem('kvr-achievements') || '[]') as string[])
+  const [toast, setToast] = useState('')
+  const [audioEnabled, setAudioEnabled] = useState(false)
+  const audioRef = useRef<AudioContext | null>(null)
+  const gainRef = useRef<GainNode | null>(null)
+  const xpRef = useRef(xp)
+  const unlockedRef = useRef(unlocked)
+
+  const unlock = useCallback((id: string) => {
+    const achievement = achievements.find((item) => item.id === id)
+    if (!achievement || unlockedRef.current.includes(id)) return
+    const nextUnlocked = [...unlockedRef.current, id]
+    const nextXp = xpRef.current + achievement.xp
+    unlockedRef.current = nextUnlocked
+    xpRef.current = nextXp
+    setUnlocked(nextUnlocked)
+    setXp(nextXp)
+    setToast(achievement.title)
+    localStorage.setItem('kvr-achievements', JSON.stringify(nextUnlocked))
+    localStorage.setItem('kvr-xp', String(nextXp))
+    window.setTimeout(() => setToast(''), 2600)
+  }, [])
+
+  useEffect(() => {
+    const readyTimer = window.setTimeout(() => setSiteReady(true), 1400)
+    return () => window.clearTimeout(readyTimer)
+  }, [])
+
+  useEffect(() => {
+    const firstContactTimer = window.setTimeout(() => unlock('first-contact'), 0)
+    const controller = new AbortController()
+    const headers: HeadersInit = import.meta.env.VITE_GITHUB_TOKEN
+      ? { Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}` }
+      : {}
+
+    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`, {
+      headers,
+      signal: controller.signal,
+    })
+      .then((response) => (response.ok ? response.json() : Promise.reject(response.status)))
+      .then((data: Repo[]) => {
+        const publicRepos = data.filter((repo) => !repo.name.includes('.github.io')).slice(0, 12)
+        if (publicRepos.length) setRepos(publicRepos)
+      })
+      .catch(() => setRepos(fallbackRepos))
+
+    return () => {
+      window.clearTimeout(firstContactTimer)
+      controller.abort()
+    }
+  }, [unlock])
+
+  useEffect(() => {
+    const sections = gsap.utils.toArray<HTMLElement>('[data-reward]')
+    const triggers = sections.map((section) =>
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 70%',
+        once: true,
+        onEnter: () => unlock(section.dataset.reward || ''),
+      }),
+    )
+    gsap.from('.reveal', {
+      y: 64,
+      opacity: 0,
+      duration: 0.9,
+      stagger: 0.08,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.hero-panel', start: 'top center' },
+    })
+
+    return () => triggers.forEach((trigger) => trigger.kill())
+  }, [unlock])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => unlock('galaxy-brain'), 300000)
+    const keys: string[] = []
+    const konami = 'ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight b a'
+    const keydown = (event: KeyboardEvent) => {
+      keys.push(event.key)
+      keys.splice(0, keys.length - 10)
+      if (keys.join(' ') === konami) document.body.classList.add('god-mode')
+      if (keys.join(' ') === konami) unlock('god-mode')
+    }
+    window.addEventListener('keydown', keydown)
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('keydown', keydown)
+    }
+  }, [unlock])
+
+  const toggleAudio = () => {
+    if (!audioRef.current) {
+      const context = new AudioContext()
+      const oscillator = context.createOscillator()
+      const gain = context.createGain()
+      oscillator.type = 'sine'
+      oscillator.frequency.value = 55
+      gain.gain.value = 0
+      oscillator.connect(gain)
+      gain.connect(context.destination)
+      oscillator.start()
+      audioRef.current = context
+      gainRef.current = gain
+    }
+    const next = !audioEnabled
+    const context = audioRef.current
+    if (context && gainRef.current) {
+      gainRef.current.gain.setTargetAtTime(next ? 0.025 : 0, context.currentTime, 0.2)
+    }
+    setAudioEnabled(next)
+  }
+
+  return (
+    <div className="experience-shell">
+      <LoadingScreen ready={siteReady} />
+      <QuantumCursor />
+      <Hud xp={xp} unlocked={unlocked} audioEnabled={audioEnabled} onToggleAudio={toggleAudio} />
+      <AnimatePresence>
+        {toast && (
+          <motion.div className="achievement-toast" initial={{ y: -24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ opacity: 0 }}>
+            <LuZap aria-hidden />
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <section className="hero-panel" aria-label="The Void Awakens">
+        <Canvas className="galaxy-canvas" camera={{ position: [0, 2.4, 12], fov: 58 }} dpr={[1, 1.8]}>
+          <color attach="background" args={['#000308']} />
+          <GalaxyField />
+        </Canvas>
+        <EquationRain />
+        <nav className="top-nav" aria-label="Primary navigation">
+          <a href="#about" aria-label="About Kupendra identity core">Identity</a>
+          <a href="#projects" aria-label="Explore Kupendra GitHub projects">Missions</a>
+          <a href="#skills" aria-label="View Kupendra skills matrix">Matrix</a>
+          <a href="#contact" aria-label="Contact Kupendra">Transmit</a>
+        </nav>
+        <div className="hero-copy">
+          <p className="eyebrow reveal">Space x Mathematics x AI Automation</p>
+          <div className="hero-avatar reveal" aria-label="Kupendra profile photo hologram">
+            <img src="/profile.jpeg" alt="Kupendra profile portrait for AI/ML and full-stack portfolio" />
+            <span aria-hidden />
+          </div>
+          <h1 className="reveal">Kupendra V R</h1>
+          <p className="hero-equation reveal">{equation}</p>
+          <p className="hero-lede reveal">
+            Engineering AI systems, automation workflows, and full-stack products with the gravity of real business outcomes.
+          </p>
+          <div className="hero-actions reveal">
+            <a href="#projects" aria-label="Explore Kupendra mission projects">
+              <LuRocket aria-hidden />
+              Enter Mission Hangar
+            </a>
+            <a href={cvUrl} download aria-label="Download Kupendra CV">
+              <LuDownload aria-hidden />
+              Download CV
+            </a>
+            <a href={`mailto:${contactEmail}`} aria-label="Contact Kupendra by email">
+              <LuMail aria-hidden />
+              Open Channel
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <section id="about" className="section-band neural-core" data-reward="neural-link" aria-label="About Kupendra">
+          <div className="neural-orb" aria-hidden>
+            {Array.from({ length: 18 }).map((_, index) => (
+              <span key={index} style={{ '--i': index } as CSSProperties} />
+            ))}
+          </div>
+          <div className="section-copy">
+            <p className="eyebrow">Neural Identity Core</p>
+            <h2>Kupendra builds useful AI with an operator&apos;s bias.</h2>
+            <p>
+              I build from the model layer to the user workflow: inference-aware APIs, automations that remove drag,
+              and interfaces that make complex systems feel controllable.
+            </p>
+            <div className="stat-strip">
+              <strong>8+ AI systems</strong>
+              <strong>15+ deployments</strong>
+              <strong>20+ integrations</strong>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects" className="section-band mission-hangar" aria-label="Kupendra projects and GitHub repositories">
+          <div className="section-copy">
+            <p className="eyebrow">The Mission Hangar</p>
+            <h2>Kupendra GitHub missions update live with resilient fallbacks.</h2>
+          </div>
+          <div className="mission-grid">
+            {repos.slice(0, 12).map((repo, index) => (
+              <MissionCard key={repo.id} repo={repo} index={index} onReward={unlock} />
+            ))}
+          </div>
+        </section>
+
+        <section id="skills" className="section-band skill-matrix" aria-label="Kupendra skills">
+          <div className="section-copy">
+            <p className="eyebrow">Quantum Skill Matrix</p>
+            <h2>Kupendra skill domains orbit product-grade engineering.</h2>
+          </div>
+          <div className="skill-orbits">
+            {skillGroups.flat().map((skill, index) => (
+              <button key={skill} type="button" style={{ '--i': index } as CSSProperties}>
+                {skill}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="section-band continuum" aria-label="Kupendra experience timeline">
+          <div className="section-copy">
+            <p className="eyebrow">Space-Time Continuum</p>
+            <h2>Kupendra experience through pressure, shipping, and polish.</h2>
+          </div>
+          <div className="timeline">
+            {timeline.map(([year, title, body]) => (
+              <article key={year}>
+                <span>{year}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="contact" className="section-band contact-band" aria-label="Contact Kupendra">
+          <div className="earth-scene" aria-hidden>
+            <span className="earth" />
+            <span className="satellite">
+              <LuSatellite aria-hidden />
+            </span>
+          </div>
+          <div className="section-copy">
+            <p className="eyebrow">Establish Transmission</p>
+            <h2>Contact Kupendra for AI systems, automation, and product builds.</h2>
+          </div>
+          <ContactTerminal onSubmit={() => unlock('transmission-sent')} />
+          <a className="direct-mail" href={`mailto:${contactEmail}`} aria-label="Email Kupendra directly">
+            <LuRadio aria-hidden />
+            {contactEmail}
+            <LuArrowUpRight aria-hidden />
+          </a>
+        </section>
+      </main>
+      <footer className="seo-footer">
+        Kupendra (KVR) is a full-stack developer, AI/ML engineer, data science builder, Web3 experimenter, and automation-focused engineer based in India.
+      </footer>
     </div>
   )
 }

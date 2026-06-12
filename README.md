@@ -45,7 +45,7 @@ Visit the live site: **[kupendra.netlify.app](https://kupendra.netlify.app/)**
 
 The portfolio features:
 - **Hero Section** — Animated copy, stat cards, and a clickable photo that shuffles Drive images
-- **Work Section** — Projects grouped by domain (Full-stack, AI/ML, Security, Web3)
+- **Work Section** — Projects grouped by domain (Full-stack, AI/ML, Web3)
 - **About Section** — Bio, bullet highlights, and toolbox chip grid
 - **Contact Section** — Email CTA, GitHub/LinkedIn icons, location badge
 - **Gallery Page** — Greyscale photo cards that reveal colour on hover
