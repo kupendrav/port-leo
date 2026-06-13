@@ -2,18 +2,15 @@
 
 :root {
   color-scheme: dark;
-  --void: #000308;
-  --deep-space: #010b18;
-  --nebula-dark: #020d25;
-  --plasma-cyan: #00f5ff;
-  --quantum-violet: #8b5cf6;
-  --nova-amber: #f59e0b;
-  --signal-green: #10b981;
-  --warning-red: #ef4444;
-  --neutron-white: #e2e8f0;
-  --font-display: 'Orbitron', 'Audiowide', 'Rajdhani', sans-serif;
-  --font-body: 'Space Grotesk', 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Cascadia Code', monospace;
+  --bg: #0A1628;
+  --bg-strong: #0F1D32;
+  --card: rgba(174, 198, 207, 0.06);
+  --text: #E8EDF5;
+  --muted: #AEC6CF;
+  --accent: #1E90FF;
+  --accent-2: #FF8C00;
+  --border: rgba(174, 198, 207, 0.14);
+  --glow: #FDEB71;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,43 +21,32 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--void);
-}
-
 body {
-  min-width: 320px;
-  min-height: 100vh;
   margin: 0;
-  color: var(--neutron-white);
-  background: var(--void);
-  font-family: var(--font-body);
+  min-height: 100vh;
+  background: radial-gradient(120% 120% at 20% 20%, rgba(0, 51, 102, 0.25), transparent 45%),
+    radial-gradient(120% 120% at 80% 0%, rgba(30, 144, 255, 0.12), transparent 35%),
+    var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', 'Syne', 'Segoe UI', sans-serif;
 }
 
-button,
-textarea,
-input {
-  font: inherit;
+/* Soft text selection highlight */
+::selection {
+  background: rgba(30, 144, 255, 0.3);
+  color: #E8EDF5;
+  text-shadow: 0 0 8px rgba(30, 144, 255, 0.4), 0 0 20px rgba(0, 127, 255, 0.3);
 }
 
-button,
-a {
-  cursor: none;
-}
-
-button {
-  border: 0;
+::-moz-selection {
+  background: rgba(30, 144, 255, 0.3);
+  color: #E8EDF5;
+  text-shadow: 0 0 8px rgba(30, 144, 255, 0.4), 0 0 20px rgba(0, 127, 255, 0.3);
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-::selection {
-  color: var(--void);
-  background: var(--plasma-cyan);
 }
 
 .sr-only {
@@ -74,9 +60,3 @@ a {
   border: 0;
 }
 
-@media (max-width: 820px) {
-  button,
-  a {
-    cursor: pointer;
-  }
-}
