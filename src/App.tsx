@@ -1,9 +1,11 @@
 import { Canvas, useFrame } from '@react-three/fiber'
+import { Text } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import {
   LuArrowUpRight,
+  LuDownload,
   LuGithub,
   LuMail,
   LuRadio,
@@ -39,6 +41,7 @@ type Achievement = {
 
 const username = import.meta.env.VITE_GITHUB_USERNAME || 'kupendrav'
 const contactEmail = 'kupendravr@zohomail.in'
+const cvUrl = '/cv.pdf'
 
 const achievements: Achievement[] = [
   { id: 'first-contact', title: 'First Contact', xp: 20 },
@@ -135,6 +138,9 @@ function GalaxyField() {
         <torusKnotGeometry args={[4.2, 0.08, 220, 16, 2, 5]} />
         <meshBasicMaterial color="#00f5ff" wireframe transparent opacity={0.22} />
       </mesh>
+      <Text position={[0, 0.7, 0]} fontSize={1.2} color="#e2e8f0" anchorX="center" anchorY="middle">
+        KUPENDRA
+      </Text>
     </>
   )
 }
@@ -280,6 +286,7 @@ function LoadingScreen({ ready }: { ready: boolean }) {
 }
 
 function MissionCard({ repo, index, onReward }: { repo: Repo; index: number; onReward: (id: string) => void }) {
+  const updated = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(new Date(repo.updated_at))
   const live = repo.homepage && repo.homepage.startsWith('http') ? repo.homepage : ''
 
   return (
@@ -298,6 +305,12 @@ function MissionCard({ repo, index, onReward }: { repo: Repo; index: number; onR
       </div>
       <h3>{repo.name.replaceAll('-', ' ')}</h3>
       <p>{repo.description || 'Experimental build from the GitHub constellation.'}</p>
+      <canvas className="commit-sparkline" width="320" height="42" aria-hidden />
+      <div className="repo-stats">
+        <span>STAR {repo.stargazers_count}</span>
+        <span>FORK {repo.forks_count}</span>
+        <span>{updated}</span>
+      </div>
       <div className="mission-actions">
         {live && (
           <a
@@ -360,11 +373,9 @@ function App() {
   const [xp, setXp] = useState(() => Number(localStorage.getItem('kvr-xp') || 0))
   const [unlocked, setUnlocked] = useState<string[]>(() => JSON.parse(localStorage.getItem('kvr-achievements') || '[]') as string[])
   const [toast, setToast] = useState('')
-  const [audioEnabled, setAudioEnabled] = useState(true)
+  const [audioEnabled, setAudioEnabled] = useState(false)
   const audioRef = useRef<AudioContext | null>(null)
   const gainRef = useRef<GainNode | null>(null)
-  const filterRef = useRef<BiquadFilterNode | null>(null)
-  const oscillatorRefs = useRef<OscillatorNode[]>([])
   const xpRef = useRef(xp)
   const unlockedRef = useRef(unlocked)
 
@@ -383,62 +394,10 @@ function App() {
     window.setTimeout(() => setToast(''), 2600)
   }, [])
 
-  const startAudio = useCallback((enabled: boolean) => {
-    if (!audioRef.current) {
-      const context = new AudioContext()
-      const low = context.createOscillator()
-      const shimmer = context.createOscillator()
-      const filter = context.createBiquadFilter()
-      const gain = context.createGain()
-      low.type = 'sine'
-      low.frequency.value = 64
-      shimmer.type = 'triangle'
-      shimmer.frequency.value = 128
-      filter.type = 'lowpass'
-      filter.frequency.value = 420
-      filter.Q.value = 0.7
-      gain.gain.value = 0
-      low.connect(filter)
-      shimmer.connect(filter)
-      filter.connect(gain)
-      gain.connect(context.destination)
-      low.start()
-      shimmer.start()
-      audioRef.current = context
-      gainRef.current = gain
-      filterRef.current = filter
-      oscillatorRefs.current = [low, shimmer]
-    }
-    const context = audioRef.current
-    if (context?.state === 'suspended') void context.resume()
-    if (context && gainRef.current && filterRef.current) {
-      gainRef.current.gain.setTargetAtTime(enabled ? 0.075 : 0, context.currentTime, 0.12)
-      filterRef.current.frequency.setTargetAtTime(enabled ? 760 : 320, context.currentTime, 0.4)
-    }
-  }, [])
-
   useEffect(() => {
     const readyTimer = window.setTimeout(() => setSiteReady(true), 1400)
     return () => window.clearTimeout(readyTimer)
   }, [])
-
-  useEffect(() => {
-    if (!audioEnabled) return
-
-    const startOnGesture = () => {
-      startAudio(true)
-      window.removeEventListener('pointerdown', startOnGesture)
-      window.removeEventListener('keydown', startOnGesture)
-    }
-
-    window.addEventListener('pointerdown', startOnGesture, { once: true })
-    window.addEventListener('keydown', startOnGesture, { once: true })
-
-    return () => {
-      window.removeEventListener('pointerdown', startOnGesture)
-      window.removeEventListener('keydown', startOnGesture)
-    }
-  }, [audioEnabled, startAudio])
 
   useEffect(() => {
     const firstContactTimer = window.setTimeout(() => unlock('first-contact'), 0)
@@ -504,20 +463,29 @@ function App() {
   }, [unlock])
 
   const toggleAudio = () => {
+    if (!audioRef.current) {
+      const context = new AudioContext()
+      const oscillator = context.createOscillator()
+      const gain = context.createGain()
+      oscillator.type = 'sine'
+      oscillator.frequency.value = 55
+      gain.gain.value = 0
+      oscillator.connect(gain)
+      gain.connect(context.destination)
+      oscillator.start()
+      audioRef.current = context
+      gainRef.current = gain
+    }
     const next = !audioEnabled
-    startAudio(next)
+    const context = audioRef.current
+    if (context && gainRef.current) {
+      gainRef.current.gain.setTargetAtTime(next ? 0.025 : 0, context.currentTime, 0.2)
+    }
     setAudioEnabled(next)
   }
 
-  useEffect(() => {
-    return () => {
-      oscillatorRefs.current.forEach((oscillator) => oscillator.stop())
-      void audioRef.current?.close()
-    }
-  }, [])
-
   return (
-    <div className={`experience-shell${audioEnabled ? ' audio-on' : ''}`}>
+    <div className="experience-shell">
       <LoadingScreen ready={siteReady} />
       <QuantumCursor />
       <Hud xp={xp} unlocked={unlocked} audioEnabled={audioEnabled} onToggleAudio={toggleAudio} />
@@ -543,8 +511,9 @@ function App() {
           <a href="#contact" aria-label="Contact Kupendra">Transmit</a>
         </nav>
         <div className="hero-copy">
+          <p className="eyebrow reveal">Space x Mathematics x AI Automation</p>
           <div className="hero-avatar reveal" aria-label="Kupendra profile photo hologram">
-            <img src="/logo.jpeg" alt="Kupendra logo with astronauts and monogram" />
+            <img src="/profile.jpeg" alt="Kupendra profile portrait for AI/ML and full-stack portfolio" />
             <span aria-hidden />
           </div>
           <h1 className="reveal">Kupendra V R</h1>
@@ -556,6 +525,10 @@ function App() {
             <a href="#projects" aria-label="Explore Kupendra mission projects">
               <LuRocket aria-hidden />
               Enter Mission Hangar
+            </a>
+            <a href={cvUrl} download aria-label="Download Kupendra CV">
+              <LuDownload aria-hidden />
+              Download CV
             </a>
             <a href={`mailto:${contactEmail}`} aria-label="Contact Kupendra by email">
               <LuMail aria-hidden />

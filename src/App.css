@@ -1,19 +1,13 @@
 .experience-shell {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   color: var(--neutron-white);
   background:
     radial-gradient(circle at 20% 0%, rgba(0, 245, 255, 0.12), transparent 26rem),
     radial-gradient(circle at 80% 15%, rgba(16, 185, 129, 0.12), transparent 24rem),
     linear-gradient(180deg, var(--void), var(--deep-space) 48%, var(--nebula-dark));
   cursor: none;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.experience-shell::-webkit-scrollbar {
-  display: none;
 }
 
 .top-nav {
@@ -112,11 +106,6 @@
   isolation: isolate;
 }
 
-.hero-panel,
-.section-band {
-  scroll-margin-top: 5rem;
-}
-
 .galaxy-canvas {
   position: absolute !important;
   inset: 0;
@@ -132,28 +121,14 @@
   background: linear-gradient(0deg, var(--void), transparent);
 }
 
-.hero-panel::before,
-.section-band::before {
-  position: absolute;
-  inset: -12rem 0 auto;
-  height: 20rem;
-  content: '';
-  background:
-    radial-gradient(ellipse at 22% 50%, rgba(0, 245, 255, 0.16), transparent 56%),
-    linear-gradient(180deg, rgba(0, 3, 8, 0), rgba(0, 245, 255, 0.045), rgba(0, 3, 8, 0));
-  filter: blur(28px);
-  opacity: 0.78;
-  pointer-events: none;
-}
-
 .hero-copy {
-  width: min(760px, 100%);
+  width: min(920px, 100%);
 }
 
 .hero-avatar {
   position: relative;
-  width: 9rem;
-  height: 9rem;
+  width: 10rem;
+  height: 10rem;
   margin: 0 0 1.5rem;
 }
 
@@ -162,7 +137,6 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  background: #fff;
   border: 2px solid var(--plasma-cyan);
   border-radius: 50%;
   box-shadow:
@@ -209,8 +183,8 @@
 }
 
 .hero-copy h1 {
-  max-width: 14ch;
-  font-size: clamp(2.75rem, 7vw, 5.4rem);
+  max-width: 9ch;
+  font-size: clamp(3.5rem, 11vw, 8.8rem);
   text-shadow: 0 0 42px rgba(0, 245, 255, 0.22);
 }
 
@@ -291,17 +265,13 @@ main {
 }
 
 .section-band {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
   min-height: 88svh;
   padding: clamp(5rem, 10vw, 8rem) clamp(1rem, 4vw, 4rem);
-  border-top: 0;
-  background:
-    linear-gradient(180deg, rgba(0, 3, 8, 0), rgba(0, 245, 255, 0.028) 12%, rgba(0, 3, 8, 0) 92%),
-    radial-gradient(ellipse at 50% 0%, rgba(0, 245, 255, 0.08), transparent 45rem);
+  border-top: 1px solid rgba(0, 245, 255, 0.1);
 }
 
 .section-copy {
@@ -320,57 +290,20 @@ main {
 
 .neural-core {
   background:
-    radial-gradient(ellipse at 18% 50%, rgba(0, 245, 255, 0.16), transparent 32rem),
-    radial-gradient(ellipse at 70% 40%, rgba(16, 185, 129, 0.1), transparent 30rem),
-    linear-gradient(90deg, rgba(0, 245, 255, 0.06), transparent);
+    linear-gradient(90deg, rgba(0, 245, 255, 0.08), transparent),
+    radial-gradient(circle at 18% 50%, rgba(139, 92, 246, 0.18), transparent 28rem);
 }
 
 .neural-orb {
   position: relative;
   width: min(72vw, 520px);
   aspect-ratio: 1;
-  border: 1px solid rgba(0, 245, 255, 0.28);
+  border: 1px solid rgba(0, 245, 255, 0.16);
   border-radius: 50%;
   background:
-    radial-gradient(ellipse at 50% 48%, rgba(0, 245, 255, 0.25), transparent 12%),
-    repeating-radial-gradient(ellipse, rgba(0, 245, 255, 0.16) 0 1px, transparent 1px 42px),
-    linear-gradient(135deg, rgba(0, 245, 255, 0.16), rgba(16, 185, 129, 0.06), transparent 68%);
-  box-shadow:
-    0 0 70px rgba(0, 245, 255, 0.12),
-    inset 0 0 60px rgba(0, 245, 255, 0.08);
-  transform-style: preserve-3d;
-  animation: ufoSpin 9s linear infinite, ufoBob 4.8s ease-in-out infinite;
-}
-
-.neural-orb::before,
-.neural-orb::after {
-  position: absolute;
-  content: '';
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.neural-orb::before {
-  inset: 41% 9%;
-  border: 2px solid rgba(0, 245, 255, 0.55);
-  box-shadow: 0 0 34px rgba(0, 245, 255, 0.32);
-  transform: rotateX(68deg);
-}
-
-.neural-orb::after {
-  inset: 18% 18%;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(226, 232, 240, 0.22), transparent 12%),
-    radial-gradient(circle, rgba(0, 245, 255, 0.18), transparent 55%);
-  filter: blur(0.2px);
-}
-
-.audio-on .neural-orb {
-  animation-duration: 5.2s, 2.8s;
-  box-shadow:
-    0 0 92px rgba(0, 245, 255, 0.22),
-    0 0 130px rgba(16, 185, 129, 0.1),
-    inset 0 0 80px rgba(0, 245, 255, 0.12);
+    repeating-radial-gradient(circle, rgba(0, 245, 255, 0.1) 0 1px, transparent 1px 38px),
+    radial-gradient(circle, rgba(0, 245, 255, 0.15), rgba(139, 92, 246, 0.05) 48%, transparent 68%);
+  animation: slowSpin 28s linear infinite;
 }
 
 .neural-orb span {
@@ -381,10 +314,8 @@ main {
   height: 0.7rem;
   border-radius: 50%;
   background: var(--plasma-cyan);
-  box-shadow: 0 0 24px var(--plasma-cyan), 0 0 46px rgba(0, 245, 255, 0.34);
+  box-shadow: 0 0 24px var(--plasma-cyan);
   transform: rotate(calc(var(--i) * 20deg)) translateX(clamp(5rem, 22vw, 13rem));
-  animation: lightPulse 1.8s ease-in-out infinite;
-  animation-delay: calc(var(--i) * -0.08s);
 }
 
 .stat-strip {
@@ -419,7 +350,7 @@ main {
 
 .mission-card {
   position: relative;
-  min-height: 280px;
+  min-height: 340px;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -452,7 +383,8 @@ main {
   z-index: 1;
 }
 
-.mission-card__top {
+.mission-card__top,
+.repo-stats {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
@@ -470,10 +402,20 @@ main {
 }
 
 .mission-card p {
-  min-height: 6.5rem;
+  min-height: 5rem;
   margin: 0;
   color: rgba(226, 232, 240, 0.76);
   line-height: 1.55;
+}
+
+.commit-sparkline {
+  width: 100%;
+  height: 42px;
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  background:
+    linear-gradient(90deg, rgba(0, 245, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 245, 255, 0.12) 1px, transparent 1px);
+  background-size: 24px 21px;
 }
 
 .mission-actions {
@@ -659,7 +601,7 @@ main {
   font-size: 0.9rem;
   line-height: 1.7;
   text-align: center;
-  border-top: 0;
+  border-top: 1px solid rgba(0, 245, 255, 0.1);
 }
 
 .quantum-cursor {
@@ -782,37 +724,6 @@ main {
   }
 }
 
-@keyframes ufoSpin {
-  from {
-    transform: perspective(900px) rotateX(60deg) rotateZ(0deg);
-  }
-  to {
-    transform: perspective(900px) rotateX(60deg) rotateZ(360deg);
-  }
-}
-
-@keyframes ufoBob {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -18px;
-  }
-}
-
-@keyframes lightPulse {
-  0%,
-  100% {
-    opacity: 0.72;
-    scale: 0.86;
-  }
-  50% {
-    opacity: 1;
-    scale: 1.2;
-  }
-}
-
 @keyframes foilTurn {
   to {
     transform: rotate(360deg);
@@ -868,8 +779,8 @@ main {
   }
 
   .hero-avatar {
-    width: 7.5rem;
-    height: 7.5rem;
+    width: 8rem;
+    height: 8rem;
   }
 
   .section-band,
