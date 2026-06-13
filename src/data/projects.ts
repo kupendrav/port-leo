@@ -11,7 +11,7 @@ export type Project = {
   domain: string
 }
 
-export const DOMAIN_ORDER = ['Full-stack', 'AI / ML', 'Web3', 'Cybersecurity'] as const
+export const DOMAIN_ORDER = ['Full-stack', 'AI / ML', 'Web3'] as const
 
 export const projects: Project[] = [
   // ── Full-stack ──
@@ -125,24 +125,5 @@ export const projects: Project[] = [
       { label: 'Live', href: 'https://cryptgame.netlify.app/' },
     ],
     domain: 'Web3',
-  },
-  // ── Cybersecurity ──
-  {
-    title: 'SecureAudit',
-    description: 'Security toolkit for policy linting, webhook verification, and exportable audit logs with compliance focus.',
-    tech: ['TypeScript', 'Security', 'Automation', 'Compliance'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/SecureAudit' },
-    ],
-    domain: 'Cybersecurity',
-  },
-  {
-    title: 'CodeHawks-Token-0x',
-    description: 'Solidity smart contract security challenge with focus on secure token implementation and vulnerability analysis.',
-    tech: ['Solidity', 'Security', 'Smart Contracts'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/CodeHawks-Token-0x' },
-    ],
-    domain: 'Cybersecurity',
   },
 ]
