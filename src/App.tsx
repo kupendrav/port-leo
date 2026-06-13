@@ -57,6 +57,14 @@ const drivePhotoUrls = drivePhotoIds.map(
   (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w1200`,
 )
 
+function pickDrivePhotoIndex(lastIndex: number) {
+  let idx: number
+  do {
+    idx = Math.floor(Math.random() * drivePhotoUrls.length)
+  } while (idx === lastIndex && drivePhotoUrls.length > 1)
+  return idx
+}
+
 const cvUrl = '/cv.pdf'
 const contactEmail = 'kupendravr@zohomail.in'
 const socialLinks = {
@@ -132,10 +140,7 @@ function App() {
     if (!img) return
 
     // Pick a random index different from the last one
-    let idx: number
-    do {
-      idx = Math.floor(Math.random() * drivePhotoUrls.length)
-    } while (idx === lastIndexRef.current && drivePhotoUrls.length > 1)
+    const idx = pickDrivePhotoIndex(lastIndexRef.current)
     lastIndexRef.current = idx
 
     const nextUrl = drivePhotoUrls[idx]
