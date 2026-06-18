@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type CSSProperties } from 'react'
 import { GLSLBackground } from './GLSLBackground'
 import { gsap } from '../lib/gsap'
 
@@ -68,20 +68,34 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   }, [isComplete, onLoadingComplete])
 
   const dashOffset = CIRCUMFERENCE - (progress / 100) * CIRCUMFERENCE
+  const growth = Math.min(progress / 100, 1)
 
   return (
     <div ref={containerRef} className="loading-screen">
       <GLSLBackground />
 
       <div className="loading-content">
-        {/* SVG circle progress indicator with K inside */}
-        <div className="loading-circle-wrap">
+        <div className="loading-circle-wrap" style={{ '--neural-growth': growth } as CSSProperties}>
           <svg
             className="loading-circle-svg"
             width="320"
             height="320"
             viewBox="0 0 320 320"
           >
+            <defs>
+              <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#1E90FF" />
+                <stop offset="50%" stopColor="#00E5FF" />
+                <stop offset="100%" stopColor="#AEC6CF" />
+              </linearGradient>
+              <filter id="neuralGlow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
             {/* Background track circle */}
             <circle
               cx="160"
@@ -117,17 +131,39 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
               strokeDashoffset={dashOffset}
               className="loading-progress-circle loading-progress-glow"
             />
-            {/* Gradient definition */}
-            <defs>
-              <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#1E90FF" />
-                <stop offset="50%" stopColor="#007FFF" />
-                <stop offset="100%" stopColor="#AEC6CF" />
-              </linearGradient>
-            </defs>
+            <g className="neural-network" filter="url(#neuralGlow)">
+              {[
+                'M160 16 C174 2 188 -12 206 -28 C218 -39 224 -56 221 -76',
+                'M265 66 C292 54 314 36 334 14 C348 -4 366 -12 389 -10',
+                'M304 169 C334 174 365 190 390 218 C407 236 426 244 450 240',
+                'M235 284 C250 310 272 329 300 341 C320 350 333 367 337 390',
+                'M85 284 C65 309 51 333 43 363 C38 383 24 399 5 409',
+                'M16 172 C-14 183 -40 200 -62 225 C-78 242 -99 250 -123 247',
+                'M58 62 C40 43 20 29 -4 18 C-26 8 -39 -8 -44 -32',
+              ].map((path) => (
+                <path key={path} d={path} pathLength="1" className="neural-path" />
+              ))}
+              {[
+                [206, -28],
+                [221, -76],
+                [334, 14],
+                [389, -10],
+                [390, 218],
+                [450, 240],
+                [300, 341],
+                [337, 390],
+                [43, 363],
+                [5, 409],
+                [-62, 225],
+                [-123, 247],
+                [-4, 18],
+                [-44, -32],
+              ].map(([cx, cy]) => (
+                <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="4" className="neural-node" />
+              ))}
+            </g>
           </svg>
 
-          {/* Big K letter centered inside the circle */}
           <span className="loading-k">K</span>
         </div>
       </div>

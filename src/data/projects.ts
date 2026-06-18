@@ -11,14 +11,113 @@ export type Project = {
   domain: string
 }
 
-export const DOMAIN_ORDER = ['Full-stack', 'AI / ML', 'Web3', 'Cybersecurity'] as const
+export const DOMAIN_ORDER = ['Open Source', 'AI / ML', 'Full-stack', 'Cybersecurity', 'Web3'] as const
 
 export const projects: Project[] = [
-  // ── Full-stack ──
+  // Open source and developer tooling
+  {
+    title: 'Tessera.io',
+    description:
+      'Open-source collaborative developer sandbox fork focused on real-time CRDT synchronization and secure remote code execution for human-AI pair programming.',
+    tech: ['TypeScript', 'CRDT', 'Remote Execution', 'Open Source'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/Tessera.io' },
+    ],
+    domain: 'Open Source',
+  },
+  {
+    title: 'port-leo',
+    description:
+      'Personal portfolio website inspired by a space theme, built in TypeScript with polished motion, SEO metadata, and project storytelling.',
+    tech: ['TypeScript', 'React', 'Vite', 'SEO'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/port-leo' },
+      { label: 'Live', href: 'https://kupendra.netlify.app/' },
+    ],
+    domain: 'Open Source',
+  },
+  // AI / ML
+  {
+    title: 'AI-Powered-Customer-Churn-Prediction-Platform',
+    description:
+      'ChurnAI platform for customer churn prediction, combining machine-learning workflows with a TypeScript product interface.',
+    tech: ['TypeScript', 'Machine Learning', 'MLOps', 'SaaS'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/AI-Powered-Customer-Churn-Prediction-Platform' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'ai-heart-disease-prediction',
+    description:
+      'Healthcare AI project for heart-disease prediction with an HTML interface and machine-learning project structure.',
+    tech: ['HTML', 'Machine Learning', 'Healthcare AI'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/ai-heart-disease-prediction' },
+      { label: 'Live', href: 'https://heart-ai.up.railway.app/' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'Lifeline_ai_prediction',
+    description:
+      'Jupyter Notebook healthcare prediction project exploring AI-assisted lifeline and health-risk analysis.',
+    tech: ['Jupyter Notebook', 'Python', 'AI', 'Healthcare AI'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/Lifeline_ai_prediction' },
+      { label: 'Live', href: 'https://lifeline-ai.up.railway.app/' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'ai-loan-prediction-system',
+    description:
+      'Python loan prediction system for classification and risk analysis across structured financial data.',
+    tech: ['Python', 'Machine Learning', 'Loan Prediction'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/ai-loan-prediction-system' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'ProfileGuard-AI',
+    description:
+      'AI toolkit that protects, diagnoses, and reinstates Google Business Profiles from algorithmic suspensions and technical glitches.',
+    tech: ['TypeScript', 'AI Agents', 'Automation'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/ProfileGuard-AI' },
+      { label: 'Live', href: 'https://kupendrav.github.io/ProfileGuard-AI/' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'code-reviewer-pro',
+    description:
+      'AI-powered code reviewer for code analysis, best-practice feedback, and developer productivity workflows.',
+    tech: ['JavaScript', 'AI', 'Code Analysis'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/code-reviewer-pro' },
+      { label: 'Live', href: 'https://codepro-mu.vercel.app/' },
+    ],
+    domain: 'AI / ML',
+  },
+  {
+    title: 'AI-image-enhancer',
+    description:
+      'AI-powered image enhancement project for improving image quality through a lightweight JavaScript interface.',
+    tech: ['JavaScript', 'AI', 'Image Processing'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/AI-image-enhancer' },
+      { label: 'Live', href: 'https://ai-image-enhancer-gamma.vercel.app' },
+    ],
+    domain: 'AI / ML',
+  },
+  // Full-stack
   {
     title: 'pro-pdfs',
-    description: 'Professional PDF generation and management tool for creating polished documents with full-stack architecture.',
-    tech: ['TypeScript', 'React', 'Node.js', 'Full-stack'],
+    description:
+      'Open-source online PDF toolkit for conversion and processing workflows, published as a 100% free web tool.',
+    tech: ['TypeScript', 'PDF', 'React', 'Open Source'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/pro-pdfs' },
       { label: 'Live', href: 'https://propdfs.netlify.app/' },
@@ -26,18 +125,42 @@ export const projects: Project[] = [
     domain: 'Full-stack',
   },
   {
-    title: '365-smiles',
-    description: 'Habit and gratitude tracker built for logging daily wins and small joys across the year.',
-    tech: ['TypeScript', 'React', 'Full-stack'],
+    title: 'Glowlogics-Book-Store',
+    description:
+      'Mini project bookstore application with Java, Docker, Spring Boot topics, and a deployed Render instance.',
+    tech: ['JavaScript', 'Spring Boot', 'Docker', 'Render'],
     links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/365-smiles' },
-      { label: 'Live', href: 'https://365-smiles.vercel.app/' },
+      { label: 'GitHub', href: 'https://github.com/kupendrav/Glowlogics-Book-Store' },
+      { label: 'Live', href: 'https://glowlogics-book-store.onrender.com' },
+    ],
+    domain: 'Full-stack',
+  },
+  {
+    title: 'Glowlogics-Store',
+    description:
+      'Major e-commerce project using Spring Boot, Docker Compose, and SQLite-backed workflows for store operations.',
+    tech: ['Java', 'Spring Boot', 'Docker Compose', 'SQLite'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/Glowlogics-Store' },
+      { label: 'Live', href: 'https://glowlogics-store.onrender.com' },
+    ],
+    domain: 'Full-stack',
+  },
+  {
+    title: 'Glowlogics-Learning-platform',
+    description:
+      'Learning platform project built with Java, Spring Boot patterns, Docker Compose, and Glowlogics product modules.',
+    tech: ['Java', 'Spring Boot', 'Docker Compose'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/kupendrav/Glowlogics-Learning-platform' },
+      { label: 'Live', href: 'https://glowlogics-learning-platform.onrender.com' },
     ],
     domain: 'Full-stack',
   },
   {
     title: 'studX',
-    description: 'Bus pass management system with streamlined flows for students and admins—deployed in production.',
+    description:
+      'Bus pass management system with TypeScript workflows for students and administrators.',
     tech: ['TypeScript', 'React', 'Full-stack'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/studX' },
@@ -46,70 +169,44 @@ export const projects: Project[] = [
     domain: 'Full-stack',
   },
   {
-    title: 'job-seekz',
-    description: 'Job seeking platform built during a hackathon to connect job seekers with opportunities.',
-    tech: ['TypeScript', 'React', 'Full-stack'],
+    title: 'tjohn-hackathon',
+    description:
+      'Hackathon job platform connecting talent with opportunity through a modern full-stack TypeScript interface.',
+    tech: ['TypeScript', 'Full-stack', 'Job Search'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/tjohn-hackathon' },
       { label: 'Live', href: 'https://tjohn-hackathon.vercel.app/' },
     ],
     domain: 'Full-stack',
   },
-  // ── AI / ML ──
+  // Cybersecurity
   {
-    title: 'code-reviewer-pro',
-    description: 'AI-powered code review tool analyzing code for best practices, bugs, and improvements using LLMs.',
-    tech: ['TypeScript', 'React', 'AI', 'LLM', 'Full-stack'],
+    title: 'SecureAudit',
+    description:
+      'Security toolkit for cookie policy linting, payment webhook verification review, and exportable compliance audit logs.',
+    tech: ['TypeScript', 'Security', 'Automation', 'Compliance'],
     links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/code-reviewer-pro' },
-      { label: 'Live', href: 'https://codepro-mu.vercel.app/' },
+      { label: 'GitHub', href: 'https://github.com/kupendrav/SecureAudit' },
+      { label: 'Live', href: 'https://secure-audit-delta.vercel.app' },
     ],
-    domain: 'AI / ML',
+    domain: 'Cybersecurity',
   },
   {
-    title: 'ProfileGuard-AI',
-    description: 'AI-driven platform that diagnoses and reinstates suspended Google Business Profiles with actionable fixes.',
-    tech: ['TypeScript', 'AI Ops', 'LLM', 'Automation'],
+    title: 'AI-PUPPY-RAFFLE-CodeHawks',
+    description:
+      'Solidity CodeHawks security challenge repository for smart-contract vulnerability review and audit practice.',
+    tech: ['Solidity', 'Security', 'Smart Contracts'],
     links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/ProfileGuard-AI' },
-      { label: 'Live', href: 'https://kupendrav.github.io/ProfileGuard-AI/' },
+      { label: 'GitHub', href: 'https://github.com/kupendrav/AI-PUPPY-RAFFLE-CodeHawks' },
     ],
-    domain: 'AI / ML',
+    domain: 'Cybersecurity',
   },
-  {
-    title: 'natasha-ai',
-    description: 'AI-powered conversational assistant with modern web technologies and LLM integration.',
-    tech: ['TypeScript', 'React', 'AI', 'LLM'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/natasha-ai-copy' },
-      { label: 'Live', href: 'https://kupendrav.github.io/natasha-ai-copy/' },
-    ],
-    domain: 'AI / ML',
-  },
-  {
-    title: 'AI-image-enhancer',
-    description: 'JavaScript-based image enhancer using AI-driven filters for progressive image quality improvement.',
-    tech: ['JavaScript', 'AI', 'Image Processing'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/AI-image-enhancer' },
-      { label: 'Live', href: 'https://ai-image-enhancer-gamma.vercel.app/' },
-    ],
-    domain: 'AI / ML',
-  },
-  {
-    title: 'Capestone-project-Kaggle-x-Google',
-    description: 'Data science capstone notebook demonstrating ML workflows and statistical analysis from Kaggle Google collaboration.',
-    tech: ['Python', 'Data Science', 'Pandas', 'ML'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/Capestone-project-Kaggle-x-Google-' },
-    ],
-    domain: 'AI / ML',
-  },
-  // ── Web3 ──
+  // Web3
   {
     title: 'HealthChain',
-    description: 'Decentralized health management application tracking health data on blockchain with Web3 integration.',
-    tech: ['TypeScript', 'React', 'Web3', 'Blockchain'],
+    description:
+      'Secure healthcare application exploring blockchain technology, data-science patterns, and health data workflows.',
+    tech: ['Python', 'Security', 'Data Science', 'Blockchain'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/HealthChain' },
       { label: 'Live', href: 'https://kupendrav.github.io/HealthChain/' },
@@ -118,31 +215,13 @@ export const projects: Project[] = [
   },
   {
     title: 'cryptX',
-    description: 'Crypto dashboard experiments with transaction flows and Web3 primitives in TypeScript.',
-    tech: ['TypeScript', 'Web3', 'React'],
+    description:
+      'Encrypted text guessing game experimenting with Web3 themes, encryption, and TypeScript interaction design.',
+    tech: ['TypeScript', 'Web3', 'Encryption'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/cryptX' },
       { label: 'Live', href: 'https://cryptgame.netlify.app/' },
     ],
     domain: 'Web3',
-  },
-  // ── Cybersecurity ──
-  {
-    title: 'SecureAudit',
-    description: 'Security toolkit for policy linting, webhook verification, and exportable audit logs with compliance focus.',
-    tech: ['TypeScript', 'Security', 'Automation', 'Compliance'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/SecureAudit' },
-    ],
-    domain: 'Cybersecurity',
-  },
-  {
-    title: 'CodeHawks-Token-0x',
-    description: 'Solidity smart contract security challenge with focus on secure token implementation and vulnerability analysis.',
-    tech: ['Solidity', 'Security', 'Smart Contracts'],
-    links: [
-      { label: 'GitHub', href: 'https://github.com/kupendrav/CodeHawks-Token-0x' },
-    ],
-    domain: 'Cybersecurity',
   },
 ]

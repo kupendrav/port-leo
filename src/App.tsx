@@ -15,7 +15,6 @@ import './App.css'
 import { gsap, useGSAP, ScrollTrigger, smoothScrollTo } from './lib/gsap'
 import { LoadingScreen } from './components/LoadingScreen'
 import { StarClickEffect } from './components/StarClickEffect'
-import { Gallery } from './components/Gallery'
 import heroImage from './photos/image.jpeg'
 
 // Google Drive photo IDs — converted to thumbnail URLs
@@ -78,6 +77,24 @@ const stats: Stat[] = [
 
 const focusChips = ['AI Engineering', 'ML Ops', 'System Architecture', 'Full-stack', 'Security']
 
+const openSourceHighlights = [
+  {
+    title: '39 public GitHub repositories',
+    description:
+      'Maintains public work across TypeScript, Python, JavaScript, Java, Jupyter Notebook, and Solidity, with portfolio, AI/ML, security, Web3, and full-stack projects.',
+  },
+  {
+    title: 'Tessera.io fork and ecosystem learning',
+    description:
+      'Publicly tracks work around an open-source collaborative developer sandbox focused on CRDT synchronization, secure remote execution, and human-AI pair programming.',
+  },
+  {
+    title: 'Security challenge repositories',
+    description:
+      'Publishes CodeHawks Solidity challenge repos and security-focused tools such as SecureAudit, showing interest in smart-contract review and application security workflows.',
+  },
+]
+
 function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="project-card">
@@ -110,7 +127,6 @@ function ProjectCard({ project }: { project: Project }) {
 function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
   const [isLoading, setIsLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home')
   const cursorRef = useRef<HTMLDivElement>(null)
   const scopeRef = useRef<HTMLDivElement>(null)
 
@@ -126,16 +142,12 @@ function App() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   }
 
-  // Click hero photo → random Drive image with crossfade
+  // Click hero photo to cycle Drive images with a crossfade.
   const handleHeroPhotoClick = () => {
     const img = heroImgRef.current
     if (!img) return
 
-    // Pick a random index different from the last one
-    let idx: number
-    do {
-      idx = Math.floor(Math.random() * drivePhotoUrls.length)
-    } while (idx === lastIndexRef.current && drivePhotoUrls.length > 1)
+    const idx = (lastIndexRef.current + 1) % drivePhotoUrls.length
     lastIndexRef.current = idx
 
     const nextUrl = drivePhotoUrls[idx]
@@ -299,7 +311,7 @@ function App() {
         })
 
         // Active link highlight per section
-        const sections = ['#hero', '#work', '#about', '#contact']
+        const sections = ['#hero', '#work', '#open-source', '#about', '#contact']
         sections.forEach((sel) => {
           const section = document.querySelector(sel)
           const navLink = document.querySelector(`.nav a[href='${sel}']`)
@@ -335,10 +347,10 @@ function App() {
         <header className="nav">
           <div className="brand" title="Kupendra Portfolio">KVR • Orbit</div>
           <nav>
-            <a href="#work" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Work</a>
-            <a href="#about" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>About</a>
-            <a href="#contact" onClick={(e) => { if (currentPage !== 'home') { e.preventDefault(); setCurrentPage('home'); } }}>Contact</a>
-            <a href="#gallery" className={currentPage === 'gallery' ? 'active' : ''} onClick={(e) => { e.preventDefault(); setCurrentPage('gallery'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Gallery</a>
+            <a href="#work">Work</a>
+            <a href="#open-source">Open Source</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
             <button className="theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
               {theme === 'dark' ? <LuSun aria-hidden /> : <LuMoon aria-hidden />}
               <span className="sr-only">Toggle theme</span>
@@ -346,15 +358,12 @@ function App() {
           </nav>
         </header>
 
-        {currentPage === 'gallery' ? (
-          <Gallery onBack={() => setCurrentPage('home')} />
-        ) : (
         <main>
           <section id="hero" className="hero">
             <div className="hero-copy">
               <p className="eyebrow">AI Engineering & Scalable Systems</p>
               <h1>
-                Kupendra — Engineering AI systems that drive measurable product growth and operational efficiency.
+                Kupendra Venkatesh — Engineering AI systems that drive measurable product growth and operational efficiency.
               </h1>
               <p className="lede">
                 I build end-to-end AI systems and automated workflows that bridge raw data to revenue. From predictive ML platforms intercepting customer churn to machine-to-machine orchestration layers, I focus on architectures with clear ROI—reducing operational drag and accelerating user productivity by 2-3x. Every technical choice is filtered through a business lens: does this reduce inference costs? Does it ship faster? Does it solve the core problem?
@@ -399,7 +408,7 @@ function App() {
                 <img
                   ref={heroImgRef}
                   src={photoSrc}
-                  alt="Kupendra - Full-Stack Developer and AI/ML Engineer"
+                  alt="Kupendra Venkatesh - Full-Stack Developer and AI/ML Engineer"
                   className={`hero-photo${photoSrc === heroImage ? ' greyscale' : ''}`}
                 />
               </div>
@@ -430,7 +439,10 @@ function App() {
             <div className="panel-header">
               <div>
                 <p className="eyebrow">Selected work</p>
-                <h2>Projects from the GitHub constellation</h2>
+              <h2>Projects from the GitHub constellation</h2>
+                <p className="panel-intro">
+                  Updated from the public GitHub profile at github.com/kupendrav, with direct links to repositories and live demos where available.
+                </p>
               </div>
               <a className="button subtle" href={`${socialLinks.github}?tab=repositories`} target="_blank" rel="noreferrer">
                 <LuGithub aria-hidden />
@@ -454,9 +466,33 @@ function App() {
             })}
           </section>
 
+          <section id="open-source" className="panel open-source-panel">
+            <div className="panel-header">
+              <div>
+                <p className="eyebrow">Open source</p>
+                <h2>Public contributions and learning in the open</h2>
+                <p className="panel-intro">
+                  Kupendra&apos;s GitHub profile shows an active public portfolio of 39 repositories, open-source forks, security challenge repos, and project code spanning AI, full-stack, Web3, and data science.
+                </p>
+              </div>
+              <a className="button subtle" href={socialLinks.github} target="_blank" rel="noreferrer">
+                <LuGithub aria-hidden />
+                Profile
+              </a>
+            </div>
+            <div className="contribution-grid">
+              {openSourceHighlights.map((item) => (
+                <article key={item.title} className="contribution-card">
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section id="about" className="panel split">
             <div>
-              <p className="eyebrow">About Kupendra</p>
+              <p className="eyebrow">About Kupendra Venkatesh</p>
               <h2>Engineering AI systems for measurable ROI</h2>
               <p className="lede">
                 Most AI engineering stops at building expensive wrappers. I engineer end-to-end AI systems and automated workflows that drive revenue—reducing operational drag, intercepting customer churn, and accelerating productivity by 2-3x. Every decision is grounded in unit economics.
@@ -546,7 +582,6 @@ function App() {
             </div>
           </section>
         </main>
-        )}
       </div>
     </div>
   )
