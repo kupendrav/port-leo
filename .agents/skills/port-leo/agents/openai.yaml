@@ -1,0 +1,6 @@
+interface:
+  display_name: "Port Leo"
+  short_description: "Repo-specific patterns and workflows for port-leo"
+  default_prompt: "Use the port-leo repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
