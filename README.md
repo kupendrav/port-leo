@@ -1,8 +1,6 @@
 <div align="center">
 
-<h1>
-  <img src="docs/orbit-banner.svg" alt="KVR • Orbit — Space-Themed Portfolio" width="100%" />
-</h1>
+# 🚀 KVR • Orbit — Space-Themed Portfolio
 
 **An immersive portfolio powered by GSAP, React, Tailwind CSS, and TypeScript**
 
@@ -190,12 +188,12 @@ port-leo/
 
 2. **CV/Resume** — Replace `public/cv.pdf`; the "Download CV" button uses `/cv.pdf`
 
-3. **Contact Email** — Update `contactEmail` in `src/data/site.ts`
+3. **Contact Email** — Update `contactEmail` in `src/App.tsx`
    ```typescript
    const contactEmail = 'your-email@example.com'
    ```
 
-4. **Social Links** — Update `socialLinks` in `src/data/site.ts`
+4. **Social Links** — Update `socialLinks` in `src/App.tsx`
    ```typescript
    const socialLinks = {
      github: 'https://github.com/yourusername',
@@ -203,7 +201,7 @@ port-leo/
    }
    ```
 
-5. **Drive Photo IDs** — Update the `drivePhotoIds` array in `src/data/site.ts` with your own Google Drive file IDs (public sharing required)
+5. **Drive Photo IDs** — Update the `drivePhotoIds` array in `src/App.tsx` with your own Google Drive file IDs (public sharing required)
 
 ### Projects
 
@@ -297,7 +295,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <div align="center">
 
-**[⬆ Back to Top](#kvr--orbit--space-themed-portfolio)**
+**[⬆ Back to Top](#-kvr--orbit--space-themed-portfolio)**
 
 Made with 💜 and ☕ by [Kupendra V R](https://kupendra.netlify.app/)
 

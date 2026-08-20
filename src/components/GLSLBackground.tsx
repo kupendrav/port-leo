@@ -1,15 +1,8 @@
-import { Suspense, useEffect, useMemo, useRef, type ReactNode } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Stars } from '@react-three/drei'
-import * as THREE from 'three'
-import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
-import type { Theme } from '../store/ui'
+import { useRef, useEffect } from 'react'
 
 const vertexShader = `
-  varying vec2 vUv;
   void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    gl_Position = vec4(position, 1.0);
   }
 `
 
@@ -17,11 +10,8 @@ const fragmentShader = `
   precision highp float;
   uniform float uTime;
   uniform vec2 uResolution;
-  uniform vec2 uMouse;
-  uniform float uTheme;
-  uniform float uReduced;
-  varying vec2 vUv;
 
+  // Simplex-like noise
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -52,195 +42,160 @@ const fragmentShader = `
     return 130.0 * dot(m, g);
   }
 
-  float hash(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
-  }
-
   void main() {
-    vec2 uv = vUv;
+    vec2 uv = gl_FragCoord.xy / uResolution.xy;
     vec2 p = uv * 2.0 - 1.0;
-    p.x *= uResolution.x / max(uResolution.y, 1.0);
-    p += uMouse * 0.12;
-
-    float t = uTime * mix(0.22, 0.0, uReduced);
-
-    float n1 = snoise(p * 1.15 + t * 0.18);
-    float n2 = snoise(p * 2.4 - t * 0.12 + 8.0);
-    float n3 = snoise(p * 4.2 + t * 0.08 + 18.0);
-    float noise = n1 * 0.55 + n2 * 0.3 + n3 * 0.15;
-
+    p.x *= uResolution.x / uResolution.y;
+    
+    float t = uTime * 0.3;
+    
+    // Layered noise for flowing energy effect
+    float n1 = snoise(p * 1.5 + t * 0.4);
+    float n2 = snoise(p * 3.0 - t * 0.6 + 10.0);
+    float n3 = snoise(p * 5.0 + t * 0.8 + 20.0);
+    
+    float noise = n1 * 0.5 + n2 * 0.3 + n3 * 0.2;
+    
+    // Radial energy pulse from center
     float dist = length(p);
-    float pulse = sin(dist * 3.2 - uTime * mix(0.7, 0.0, uReduced)) * 0.5 + 0.5;
-    pulse *= exp(-dist * 0.85);
-
-    vec3 dark1 = vec3(0.02, 0.027, 0.05);
-    vec3 dark2 = vec3(0.03, 0.09, 0.2);
-    vec3 dark3 = vec3(0.07, 0.28, 0.55);
-    vec3 dark4 = vec3(0.12, 0.42, 0.78);
-
-    vec3 light1 = vec3(0.98, 0.84, 0.8);
-    vec3 light2 = vec3(0.78, 0.9, 0.98);
-    vec3 light3 = vec3(1.0, 0.84, 1.0);
-    vec3 light4 = vec3(0.45, 0.72, 1.0);
-
-    vec3 col1 = mix(dark1, light1, uTheme);
-    vec3 col2 = mix(dark2, light2, uTheme);
-    vec3 col3 = mix(dark3, light3, uTheme);
-    vec3 col4 = mix(dark4, light4, uTheme);
-
+    float pulse = sin(dist * 4.0 - uTime * 1.5) * 0.5 + 0.5;
+    pulse *= exp(-dist * 0.8);
+    
+    // Color palette - professional deep blues with soft accents
+    vec3 col1 = vec3(0.04, 0.086, 0.16);  // Deep navy #0A1628
+    vec3 col2 = vec3(0.0, 0.2, 0.4);      // Deep blue #003366
+    vec3 col3 = vec3(0.118, 0.565, 1.0);   // Electric blue #1E90FF
+    vec3 col4 = vec3(0.0, 0.5, 1.0);      // Azure #007FFF
+    vec3 col5 = vec3(0.682, 0.776, 0.812); // Soft pastel #AEC6CF
+    
     float n = noise * 0.5 + 0.5;
-    vec3 color = mix(col1, col2, smoothstep(0.0, 0.35, n));
-    color = mix(color, col3, smoothstep(0.35, 0.62, n) * 0.55);
-    color = mix(color, col4, pulse * mix(0.28, 0.16, uTheme));
-
-    vec2 grid = abs(fract((uv + uMouse * 0.02) * 22.0 - 0.5) - 0.5);
+    vec3 color = mix(col1, col2, smoothstep(0.0, 0.3, n));
+    color = mix(color, col3, smoothstep(0.3, 0.5, n));
+    color = mix(color, col4, smoothstep(0.5, 0.7, n));
+    color = mix(color, col5, pulse * 0.6);
+    
+    // Add subtle grid lines (tech feel)
+    vec2 grid = abs(fract(uv * 30.0 - 0.5) - 0.5);
     float gridLine = min(grid.x, grid.y);
-    float gridMask = 1.0 - smoothstep(0.0, 0.028, gridLine);
-    color += vec3(0.05, 0.18, 0.38) * gridMask * mix(0.16, 0.06, uTheme) * (1.0 - dist * 0.45);
-
-    float scan = sin(gl_FragCoord.y * 1.4 + uTime * mix(1.4, 0.0, uReduced)) * mix(0.018, 0.008, uTheme);
-    color += scan;
-
-    vec2 starUv = uv * vec2(90.0, 56.0);
-    vec2 cell = floor(starUv);
-    float star = step(0.992, hash(cell));
-    float twinkle = 0.55 + 0.45 * sin(uTime * mix(2.2, 0.0, uReduced) + hash(cell) * 20.0);
-    color += star * twinkle * mix(vec3(0.75, 0.88, 1.0), vec3(1.0), uTheme) * 0.55;
-
-    float vignette = 1.0 - dist * mix(0.42, 0.22, uTheme);
+    float gridMask = 1.0 - smoothstep(0.0, 0.03, gridLine);
+    color += vec3(0.0, 0.2, 0.4) * gridMask * 0.3 * (1.0 - dist * 0.5);
+    
+    // Scanline effect
+    float scanline = sin(gl_FragCoord.y * 1.5 + uTime * 2.0) * 0.03;
+    color += scanline;
+    
+    // Vignette
+    float vignette = 1.0 - dist * 0.6;
     color *= vignette;
-
-    gl_FragColor = vec4(color, mix(0.92, 0.78, uTheme));
+    
+    // Particle-like sparkles
+    float sparkle = snoise(uv * 50.0 + uTime * 2.0);
+    sparkle = pow(max(sparkle, 0.0), 8.0) * 0.5;
+    color += vec3(0.118, 0.565, 1.0) * sparkle;
+    
+    gl_FragColor = vec4(color, 1.0);
   }
 `
 
-function Nebula({ theme, reduced }: { theme: Theme; reduced: boolean }) {
-  const material = useRef<THREE.ShaderMaterial>(null)
-  const { viewport, size } = useThree()
-  const mouse = useRef(new THREE.Vector2(0, 0))
-  const target = useRef(new THREE.Vector2(0, 0))
+export function GLSLBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const rafRef = useRef<number>(0)
 
   useEffect(() => {
-    const onMove = (event: PointerEvent) => {
-      target.current.set(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -(event.clientY / window.innerHeight) * 2 + 1,
-      )
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const gl = canvas.getContext('webgl', { alpha: false, antialias: false })
+    if (!gl) return
+
+    // Compile shaders
+    function createShader(gl: WebGLRenderingContext, type: number, source: string) {
+      const shader = gl.createShader(type)!
+      gl.shaderSource(shader, source)
+      gl.compileShader(shader)
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(shader))
+        gl.deleteShader(shader)
+        return null
+      }
+      return shader
     }
-    window.addEventListener('pointermove', onMove, { passive: true })
-    return () => window.removeEventListener('pointermove', onMove)
-  }, [])
 
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(1, 1) },
-      uMouse: { value: new THREE.Vector2(0, 0) },
-      uTheme: { value: theme === 'light' ? 1 : 0 },
-      uReduced: { value: reduced ? 1 : 0 },
-    }),
-    [theme, reduced],
-  )
+    const vs = createShader(gl, gl.VERTEX_SHADER, vertexShader)
+    const fs = createShader(gl, gl.FRAGMENT_SHADER, fragmentShader)
+    if (!vs || !fs) return
 
-  useFrame(({ clock }) => {
-    if (!material.current) return
-    mouse.current.lerp(target.current, reduced ? 1 : 0.045)
-    material.current.uniforms.uTime.value = reduced ? 0 : clock.elapsedTime
-    material.current.uniforms.uResolution.value.set(size.width, size.height)
-    material.current.uniforms.uMouse.value.copy(mouse.current)
-    material.current.uniforms.uTheme.value = theme === 'light' ? 1 : 0
-    material.current.uniforms.uReduced.value = reduced ? 1 : 0
-  })
+    const program = gl.createProgram()!
+    gl.attachShader(program, vs)
+    gl.attachShader(program, fs)
+    gl.linkProgram(program)
 
-  return (
-    <mesh scale={[viewport.width * 1.15, viewport.height * 1.15, 1]} position={[0, 0, -8]}>
-      <planeGeometry args={[1, 1, 1, 1]} />
-      <shaderMaterial
-        ref={material}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        transparent
-        depthWrite={false}
-      />
-    </mesh>
-  )
-}
-
-function ParallaxRig({ reduced, children }: { reduced: boolean; children: ReactNode }) {
-  const group = useRef<THREE.Group>(null)
-  const target = useRef({ x: 0, y: 0, scroll: 0 })
-
-  useEffect(() => {
-    const onMove = (event: PointerEvent) => {
-      target.current.x = (event.clientX / window.innerWidth - 0.5) * 0.55
-      target.current.y = (event.clientY / window.innerHeight - 0.5) * 0.3
-    }
-    const onScroll = () => {
-      target.current.scroll = window.scrollY * 0.00045
-    }
-    window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('scroll', onScroll)
-    }
-  }, [])
-
-  useFrame((_, delta) => {
-    const node = group.current
-    if (!node) return
-    if (reduced) {
-      node.position.set(0, 0, 0)
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(program))
       return
     }
-    const nextX = target.current.x
-    const nextY = -target.current.y - target.current.scroll
-    node.position.x += (nextX - node.position.x) * Math.min(1, delta * 2.2)
-    node.position.y += (nextY - node.position.y) * Math.min(1, delta * 2.2)
-  })
 
-  return <group ref={group}>{children}</group>
-}
+    // Full-screen quad
+    const buffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      gl.STATIC_DRAW,
+    )
 
-type GLSLBackgroundProps = {
-  theme?: Theme
-  className?: string
-}
+    const posLoc = gl.getAttribLocation(program, 'position')
+    const timeLoc = gl.getUniformLocation(program, 'uTime')
+    const resLoc = gl.getUniformLocation(program, 'uResolution')
 
-export function GLSLBackground({ theme = 'dark', className }: GLSLBackgroundProps) {
-  const reduced = usePrefersReducedMotion()
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
-  const starCount = reduced ? 180 : isMobile ? 420 : 900
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2)
+      canvas.width = canvas.clientWidth * dpr
+      canvas.height = canvas.clientHeight * dpr
+      gl.viewport(0, 0, canvas.width, canvas.height)
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const startTime = performance.now()
+
+    const render = () => {
+      const elapsed = (performance.now() - startTime) / 1000
+
+      gl.useProgram(program)
+      gl.enableVertexAttribArray(posLoc)
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0)
+
+      gl.uniform1f(timeLoc, elapsed)
+      gl.uniform2f(resLoc, canvas.width, canvas.height)
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6)
+      rafRef.current = requestAnimationFrame(render)
+    }
+
+    render()
+
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      window.removeEventListener('resize', resize)
+      gl.deleteProgram(program)
+      gl.deleteShader(vs)
+      gl.deleteShader(fs)
+      gl.deleteBuffer(buffer)
+    }
+  }, [])
 
   return (
-    <div className={className} style={{ position: 'absolute', inset: 0 }}>
-      <Canvas
-        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
-        dpr={isMobile ? 1 : [1, 1.5]}
-        camera={{ position: [0, 0, 8], fov: 55 }}
-        frameloop={reduced ? 'demand' : 'always'}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }}
-        onCreated={({ gl, invalidate }) => {
-          gl.setClearColor(0x000000, 0)
-          invalidate()
-        }}
-      >
-        <Suspense fallback={null}>
-          <ParallaxRig reduced={reduced}>
-            <Nebula theme={theme} reduced={reduced} />
-            <Stars
-              radius={70}
-              depth={42}
-              count={starCount}
-              factor={isMobile ? 2.4 : 3.4}
-              saturation={0}
-              fade
-              speed={reduced ? 0 : 0.35}
-            />
-          </ParallaxRig>
-        </Suspense>
-      </Canvas>
-    </div>
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        display: 'block',
+      }}
+    />
   )
 }

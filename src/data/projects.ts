@@ -9,7 +9,6 @@ export type Project = {
   tech: string[]
   links: ProjectLink[]
   domain: string
-  featured?: boolean
 }
 
 export const DOMAIN_ORDER = ['Open Source', 'AI / ML', 'Full-stack', 'Cybersecurity', 'Web3'] as const
@@ -25,7 +24,6 @@ export const projects: Project[] = [
       { label: 'GitHub', href: 'https://github.com/kupendrav/Tessera.io' },
     ],
     domain: 'Open Source',
-    featured: true,
   },
   {
     title: 'port-leo',
@@ -48,7 +46,6 @@ export const projects: Project[] = [
       { label: 'GitHub', href: 'https://github.com/kupendrav/AI-Powered-Customer-Churn-Prediction-Platform' },
     ],
     domain: 'AI / ML',
-    featured: true,
   },
   {
     title: 'ai-heart-disease-prediction',
@@ -57,6 +54,7 @@ export const projects: Project[] = [
     tech: ['HTML', 'Machine Learning', 'Healthcare AI'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/ai-heart-disease-prediction' },
+      { label: 'Live', href: 'https://heart-ai.up.railway.app/' },
     ],
     domain: 'AI / ML',
   },
@@ -67,6 +65,7 @@ export const projects: Project[] = [
     tech: ['Jupyter Notebook', 'Python', 'AI', 'Healthcare AI'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/Lifeline_ai_prediction' },
+      { label: 'Live', href: 'https://lifeline-ai.up.railway.app/' },
     ],
     domain: 'AI / ML',
   },
@@ -101,7 +100,6 @@ export const projects: Project[] = [
       { label: 'Live', href: 'https://codepro-mu.vercel.app/' },
     ],
     domain: 'AI / ML',
-    featured: true,
   },
   {
     title: 'AI-image-enhancer',
@@ -125,7 +123,6 @@ export const projects: Project[] = [
       { label: 'Live', href: 'https://propdfs.netlify.app/' },
     ],
     domain: 'Full-stack',
-    featured: true,
   },
   {
     title: 'Glowlogics-Book-Store',
@@ -178,6 +175,7 @@ export const projects: Project[] = [
     tech: ['TypeScript', 'Full-stack', 'Job Search'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/tjohn-hackathon' },
+      { label: 'Live', href: 'https://tjohn-hackathon.vercel.app/' },
     ],
     domain: 'Full-stack',
   },
@@ -192,7 +190,6 @@ export const projects: Project[] = [
       { label: 'Live', href: 'https://secure-audit-delta.vercel.app' },
     ],
     domain: 'Cybersecurity',
-    featured: true,
   },
   {
     title: 'AI-PUPPY-RAFFLE-CodeHawks',
@@ -215,7 +212,6 @@ export const projects: Project[] = [
       { label: 'Live', href: 'https://kupendrav.github.io/HealthChain/' },
     ],
     domain: 'Web3',
-    featured: true,
   },
   {
     title: 'cryptX',
@@ -224,9 +220,8 @@ export const projects: Project[] = [
     tech: ['TypeScript', 'Web3', 'Encryption'],
     links: [
       { label: 'GitHub', href: 'https://github.com/kupendrav/cryptX' },
+      { label: 'Live', href: 'https://cryptgame.netlify.app/' },
     ],
     domain: 'Web3',
   },
 ]
-
-export const featuredProjects = projects.filter((project) => project.featured)

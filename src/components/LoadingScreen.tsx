@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, type CSSProperties } from 'react'
+import { GLSLBackground } from './GLSLBackground'
 import { gsap } from '../lib/gsap'
 
 const LOAD_DURATION = 2400 // total loading time in ms
-const REDUCED_LOAD_DURATION = 400
 
 // SVG circle constants
 const RADIUS = 140
@@ -21,13 +21,10 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   useEffect(() => {
     const start = performance.now()
     let raf: number
-    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? REDUCED_LOAD_DURATION
-      : LOAD_DURATION
 
     const tick = () => {
       const elapsed = performance.now() - start
-      const p = Math.min(elapsed / duration, 1)
+      const p = Math.min(elapsed / LOAD_DURATION, 1)
       // Ease-out for smooth feel
       const eased = 1 - Math.pow(1 - p, 3)
       setProgress(eased * 100)
@@ -75,7 +72,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
 
   return (
     <div ref={containerRef} className="loading-screen">
-      <div className="loading-space" aria-hidden />
+      <GLSLBackground />
 
       <div className="loading-content">
         <div className="loading-circle-wrap" style={{ '--neural-growth': growth } as CSSProperties}>

@@ -150,8 +150,6 @@ export function StarClickEffect() {
   }, [])
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (media.matches) return
     window.addEventListener('click', spawnStars)
     return () => window.removeEventListener('click', spawnStars)
   }, [spawnStars])
